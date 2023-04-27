@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.util.concurrent.ExecutorService"/>
+<fullyQualifiedTypeName name="java.util.Vector"/>
+<fullyQualifiedTypeName name="java.awt.Component"/>
+<fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="javax.swing.JTable"/>
+<fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
+<fullyQualifiedTypeName name="javax.swing.JPanel"/>
+<fullyQualifiedTypeName name="javax.swing.JLabel"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="javax.swing.JButton"/>
+<fullyQualifiedTypeName name="java.awt.Canvas"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="java.awt.Graphics"/>
+<fullyQualifiedTypeName name="demo.Clock"/>
+<fullyQualifiedTypeName name="java.awt.Panel"/>
+<fullyQualifiedTypeName name="demo.LedCanvas"/>
+<fullyQualifiedTypeName name="games.Virus"/>
+<fullyQualifiedTypeName name="games.Tilt"/>
+<fullyQualifiedTypeName name="chess.Sakk"/>
+<fullyQualifiedTypeName name="sakk.Sakk"/>
+<fullyQualifiedTypeName name="screen.Cubeable"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="kocka.kocka4.Kocka4x4x4"/>
+<fullyQualifiedTypeName name="kocka.Kocka2x2x2"/>
+<fullyQualifiedTypeName name="kocka.Kocka"/>
+<fullyQualifiedTypeName name="base.Gameable"/>
+<fullyQualifiedTypeName name="base.GameController"/>
+</qualifiedTypeNameHistroy>

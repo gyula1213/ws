@@ -1,0 +1,19 @@
+package hello;
+
+public class Rnd {
+
+	public static void main(String[] args) {
+		int db=10;
+		double d = Math.random();
+		int []counter = new int [6];
+		for( int i=0; i<db; i++ ) {
+			int x = (int)(6*d);
+			counter[x]++;
+		}
+		System.out.println(d);
+		for( int i=0; i<6; i++ ) {
+			System.out.println((i+1) + ": " + counter[i] + "  " + counter[i]/db + "%");
+		}
+	}
+
+}

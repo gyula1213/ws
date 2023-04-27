@@ -1,0 +1,205 @@
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class TablePane extends BorderPane {
+	private Stage screen;
+	private Canvas canvas;
+	private TextField resultLabel;
+	private HBox resultBox = new HBox();
+	private Text resultText;
+	private TextField timeLabel;
+	private Label timerLabel;
+	private Pane timePane = new Pane();
+	private Pane leftPane = new Pane();
+	private Pane centerPane = new Pane();
+	private Colorflip colorflip;
+	private int size;
+	private double width;
+	private double height;
+	private double widthField;
+	private boolean isSolverMode = false;
+	private Timer timer;
+	private int sec = 0;
+	private String clock;
+	private boolean isReady;
+
+	/**
+	 * A jatek tablaja
+	 */
+	public TablePane(Stage screen, Colorflip colorflip) {
+		this.screen = screen;
+		this.colorflip = colorflip;
+		canvas = new Canvas();
+		canvas.addEventFilter(MouseEvent.MOUSE_PRESSED, this::mousePressed);
+		resultLabel = new TextField();
+		resultLabel.setMinWidth(400);
+		if (colorflip.getCnt() > 0)
+			resultText.setText("Number of steps: " + colorflip.getCnt());
+		else
+			resultText.setText("Good luck!");
+		resultBox.setPadding(new Insets(10, 10, 10, 10));
+		resultBox.getChildren().addAll(resultText);
+		setTop(resultBox);
+
+		leftPane.setPrefWidth(50);
+		setLeft(leftPane);
+
+		timeLabel = new TextField();
+		timePane.setPrefWidth(40);
+//    timePane.getChildren().addAll(timeLabel);
+		setRight(timePane);
+
+		// centerPane.setPadding(new Insets(10, 50, 10, 50));
+		centerPane.getChildren().addAll(canvas);
+		setCenter(centerPane);
+		setAlignment(resultLabel, Pos.BOTTOM_CENTER);
+
+		VBox vb = new VBox(20); // gap between components is 20
+		vb.setAlignment(Pos.CENTER); // center the components within VBox
+		timerLabel = new Label();
+		timerLabel.setText("Hurraaaaa");
+
+//    vb.setPrefWidth(scene.getWidth());
+		vb.setPrefWidth(160);
+		vb.getChildren().addAll(timerLabel);
+		vb.setLayoutY(30);
+		timePane.getChildren().addAll(vb);
+
+		startGame();
+	}
+
+	public void setSolverMode(boolean flag) {
+		isSolverMode = flag;
+	}
+
+	public void stopGame() {
+		timer.stop();
+	}
+
+	public void restartGame() {
+		resultLabel.setText("Game restarted");
+		startGame();
+	}
+
+	public void startGame() {
+		size = colorflip.getSize();
+		sec = colorflip.getSec();
+		setSec(sec);
+		timer = new Timer(this, sec);
+		timer.start();
+		isReady = false;
+		repaint();
+	}
+
+	/**
+	 * 
+	 */
+	private void paintTable(GraphicsContext gc, int[][] tomb) {
+		for (int i = 0; i < tomb.length; i++) {
+			for (int j = 0; j < tomb[i].length; j++) {
+				if (tomb[i][j] == 1)
+					gc.setFill(Color.RED);
+				else
+					gc.setFill(Color.GREEN);
+				gc.fillRect(0 + i * widthField, 0 + j * widthField, widthField, widthField);
+				gc.setStroke(Color.BLACK);
+				gc.strokeRect(0 + i * widthField, 0 + j * widthField, widthField, widthField);
+				if (isSolverMode && colorflip.isInSolve(i, j)) {
+					gc.strokeOval(0 + i * widthField, 0 + j * widthField, widthField, widthField);
+				}
+			}
+		}
+	}
+
+	public void repaint() {
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		canvas.setCursor(Cursor.CROSSHAIR);
+		canvas.setWidth(size * this.widthField);
+		canvas.setHeight(size * this.widthField);
+		gc.clearRect(0, 0, width, height);
+		paintTable(gc, colorflip.getActTable());
+	}
+
+	private void mousePressed(MouseEvent ev) {
+		if (isReady) {
+			resultLabel.setText("End of this game. You are ready in " + colorflip.getCnt() + " steps. Time: " + clock);
+			return;
+		}
+		System.out.println("widthField: (" + widthField + ")");
+		System.out.println("Pressed: (" + ev.getX() + "," + ev.getY() + ")");
+		int row = (int) ((ev.getY()) / widthField) + 1;
+		int col = (int) ((ev.getX()) / widthField) + 1;
+		System.out.println("Pos: (" + row + "," + col + ")");
+		if (row < 1 || row > size || col < 1 || col > size) {
+			System.out.println("Invalid Pos");
+			return;
+		}
+		colorflip.step(col, row);
+		if (colorflip.checkActTable()) {
+			isReady = true;
+			resultLabel.setText("Congratulation. You are ready in " + colorflip.getCnt() + " steps. Time: " + clock);
+			stopGame();
+		} else
+			resultLabel.setText("Number of steps: " + colorflip.getCnt());
+		repaint();
+	}
+
+	public void setTableSize(double w, double h) {
+//		width = screen.getWidth()-100;
+//		height = screen.getHeight()-100;
+		width = screen.getWidth() - 100;
+		height = screen.getHeight();
+		widthField = Math.min(height / size, width / size) * 0.9;
+		repaint();
+	}
+
+	private void setSec(int sec) {
+		this.sec = sec;
+		colorflip.setSec(sec);
+		int m = sec / 60;
+		int s = sec % 60;
+		if (s < 10)
+			clock = m + ":0" + s;
+		else
+			clock = m + ":" + s;
+		timeLabel.setText(clock);
+	}
+
+	public class Timer extends Thread {
+
+		private int sec;
+		private TablePane pane;
+
+		public Timer(TablePane pane, int sec) {
+			this.pane = pane;
+			this.sec = sec;
+		}
+
+		@Override
+		public void run() {
+			System.out.println("Timer started");
+			while (true) {
+				try {
+					Thread.sleep(1000);
+					sec++;
+					pane.setSec(sec);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}

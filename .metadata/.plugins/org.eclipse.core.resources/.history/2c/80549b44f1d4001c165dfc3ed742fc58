@@ -1,0 +1,56 @@
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+
+public class SizePane extends VBox {
+
+  protected Label label;
+  protected TextField text;
+  protected Label check;
+  private int size=3;
+  private boolean isReady = false;
+
+  public SizePane() {
+    setSpacing(10);
+    setPadding(new Insets(10, 10, 10, 10));
+    //setAlignment(Pos.BASELINE_CENTER);
+
+    label = new Label("Size (2-20) : ");
+
+    text = new TextField(""+size);
+    //text.setPrefColumnCount(30);
+    text.setOnAction(this::checkSize);
+
+    check = new Label("");
+
+    getChildren().addAll(label, text, check);
+  }
+  
+  public int getSize() {
+	  return size;
+  }
+  
+  public boolean isReady() {
+	  return isReady;
+  }
+
+  private void checkSize (ActionEvent ev) {
+	check.setText("");
+    String s = text.getText();
+	try {
+		size = Integer.parseInt(s);
+        check.setText("The new size is: " + size);
+	} catch (NumberFormatException e) {
+        check.setText("Invalid Number");
+        return;
+	}
+    if ( size < 2 || size > 20 ) {
+        check.setText("Size must be between 2 and 20");
+        return;
+    }
+  }
+}

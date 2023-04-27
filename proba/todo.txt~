@@ -1,0 +1,8 @@
+Minden játékos xxx.png és van hozzá xxx_baseball.png változat
+A character csv-t kiegészítettem azzal, hogy büntethet-e, hogy átmenjen a
+bunkó.
+Amikor büntetés alatt van arra csináltam egy fillRect-et
+Kérdés, hogy amikor büntetés alatt van, akkor kaphat-e el italt (szerintem
+igen - és az az egyszerûbb is, mert akkor nem kell csinálni semmit)
+DrinkFactory Game.java-ban, csak server oldalon fut.
+Játék végén kell a stop mindenhova.
