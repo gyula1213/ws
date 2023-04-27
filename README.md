@@ -1,0 +1,2 @@
+# ws
+Mindenféle, amiket próbálgatok
