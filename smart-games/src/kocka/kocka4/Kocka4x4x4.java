@@ -15,8 +15,16 @@ import kocka.forgat.Forgat;
  */
 public class Kocka4x4x4 extends Kocka
 {
-    private static String [] colors = {"x", "F", "P", "K", "N", "Z", "S"};
-	private static int cntCol = 16;
+    private static String [] colors = {"x", "F", "P", "K", "N", "Z", "S", "R"};
+    private static int cntCol = 16;
+    private static int _REF_ELEMENT = 7;	// A fekete oldal V betűje
+    
+    private static boolean all = false;
+    private static boolean lotus = false;
+    private static boolean csere = false;
+    private static boolean helyben = false;
+    private static boolean ruBuTuli = false;
+    private static boolean centrum = true;
 	
     protected Kocka4x4x4( byte [] stage, int prevStep )
     {
@@ -69,38 +77,143 @@ public class Kocka4x4x4 extends Kocka
 	public void initForgatasok()
 	{
 		Forgat.init();
-		int [] t;				// tekerés
-		int [] t2;				// tekerés
 		int [] f = egesz_bal;	// fordítás
 		int [] d = jobbra_dont;	// döntés
+		int [] t = Forgat.forgatasok(origin, jobb);		// jobb szélső oldal egy fordítása jobbra
+		int [] t2 = Forgat.forgatasok(origin, jobb_reteg);		// jobb szélső réteg (2. réteg) egy fordítása jobbra
+
+		//		t2 = Forgat.forgatasok(origin, jobb, jobb_reteg, f, d, d, d, f, f, f); Ez helyben tartja ref elemet, de inkább ez nem kell
 		
+//		Forgat.addForgatas("egesz_bal", origin, egesz_bal);	// Csak teszt
+//		Forgat.addForgatas("jobbra_dont", origin, jobbra_dont);	// Csak teszt
 
-		//Forgat.addForgatas("jobb", origin, jobb);
-		//Forgat.addForgatas("jobb_reteg", origin, jobb_reteg);
-		//Forgat.addForgatas("egesz_bal", origin, egesz_bal);
-		//Forgat.addForgatas("jobbra_dont", origin, jobbra_dont);
+		if ( all )
+		{
+			// Tető
+			Forgat.addForgatas("Ti", origin, d, jobb, d, d, d);
+			Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
+			Forgat.addForgatas("To", origin, d, jobb, jobb, jobb, d, d, d);
+			Forgat.addForgatas("ti", origin, d, jobb_reteg, d, d, d);
+			Forgat.addForgatas("tu", origin, d, jobb_reteg, jobb_reteg, d, d, d);
+			Forgat.addForgatas("to", origin, d, jobb_reteg, jobb_reteg, jobb_reteg, d, d, d);
+	
+				// Elöl
+			Forgat.addForgatas("Fi", origin, f, f, f, jobb, f);
+			Forgat.addForgatas("Fu", origin, f, f, f, jobb, jobb, f);
+			Forgat.addForgatas("Fo", origin, f, f, f, jobb, jobb, jobb, f);
+			Forgat.addForgatas("fi", origin, f, f, f, jobb_reteg, f);
+			Forgat.addForgatas("fu", origin, f, f, f, jobb_reteg, jobb_reteg, f);
+			Forgat.addForgatas("fo", origin, f, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f);
+		
+				// Jobb oldal
+			Forgat.addForgatas("Ri", origin, jobb);
+			Forgat.addForgatas("Ru", origin, jobb, jobb);
+			Forgat.addForgatas("Ro", origin, jobb, jobb, jobb );
+			Forgat.addForgatas("ri", origin, jobb_reteg);
+			Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
+			Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
+	
+	
+				// Hátul
+			Forgat.addForgatas("Bi", origin, f, jobb, f, f, f);
+			Forgat.addForgatas("Bu", origin, f, jobb, jobb, f, f, f);
+			Forgat.addForgatas("Bo", origin, f, jobb, jobb, jobb, f, f, f);
+			Forgat.addForgatas("bi", origin, f, jobb_reteg, f, f, f);
+			Forgat.addForgatas("bu", origin, f, jobb_reteg, jobb_reteg, f, f, f);
+			Forgat.addForgatas("bo", origin, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f, f);
+			
+				// Bal
+			Forgat.addForgatas("Li", origin, f, f, jobb, f, f);
+			Forgat.addForgatas("Lu", origin, f, f, jobb, jobb, f, f);
+			Forgat.addForgatas("Lo", origin, f, f, jobb, jobb, jobb, f, f);
+			Forgat.addForgatas("li", origin, f, f, jobb_reteg, f, f);
+			Forgat.addForgatas("lu", origin, f, f, jobb_reteg, jobb_reteg, f, f);
+			Forgat.addForgatas("lo", origin, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f);
+	
+				// Alul
+			Forgat.addForgatas("Di", origin, d, d, d, jobb, d);
+			Forgat.addForgatas("Du", origin, d, d, d, jobb, jobb, d);
+			Forgat.addForgatas("Do", origin, d, d, d, jobb, jobb, jobb, d);
+			Forgat.addForgatas("di", origin, d, d, d, jobb_reteg, d);
+			Forgat.addForgatas("du", origin, d, d, d, jobb_reteg, jobb_reteg, d);
+			Forgat.addForgatas("do", origin, d, d, d, jobb_reteg, jobb_reteg, jobb_reteg, d);
+		}
+		else if ( lotus )
+		{
+			Forgat.addForgatas("lo", origin, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f);
+			Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
+			Forgat.addForgatas("Fu", origin, f, f, f, jobb, jobb, f);
+			Forgat.addForgatas("ri", origin, jobb_reteg);
+			Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
+		}
+		else if ( csere )
+		{
+			Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
+			Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
+			Forgat.addForgatas("tu", origin, d, jobb_reteg, jobb_reteg, d, d, d);
+		}
+		else if ( helyben )
+		{
+			Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
+			Forgat.addForgatas("Bu", origin, f, jobb, jobb, f, f, f);
+			Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
+			Forgat.addForgatas("li", origin, f, f, jobb_reteg, f, f);
+			Forgat.addForgatas("lo", origin, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f);
+			Forgat.addForgatas("ri", origin, jobb_reteg);
+			Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
+			Forgat.addForgatas("Fu", origin, f, f, f, jobb, jobb, f);
+		}
+		if ( ruBuTuli )
+		{
+			Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
+			Forgat.addForgatas("Bu", origin, f, jobb, jobb, f, f, f);
+			Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
+			Forgat.addForgatas("li", origin, f, f, jobb_reteg, f, f);
+			Forgat.addForgatas("lo", origin, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f);
+			Forgat.addForgatas("ri", origin, jobb_reteg);
+			Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
+			Forgat.addForgatas("Fu", origin, f, f, f, jobb, jobb, f);
+			Forgat.addForgatas("ru-Bu", origin, "ru", "Bu");
+			Forgat.addForgatas("Bu-ru", origin, "Bu", "ru");
+			Forgat.addForgatas("Tu-li", origin, "Tu", "li");
+			Forgat.addForgatas("Tu-ri", origin, "Tu", "ri");
+			Forgat.addForgatas("Tu-ro", origin, "Tu", "ro");
+			Forgat.addForgatas("Fu-ri", origin, "Fu", "ri");
+			Forgat.addForgatas("Fu-lo", origin, "Fu", "lo");
+			Forgat.setActive(false,"ru", "Bu", "Fu", "li", "lo", "ri", "ro");
+		}
+		else if ( centrum )
+		{
+			Forgat.addForgatas("Ti", origin, d, jobb, d, d, d);
+			Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
+			Forgat.addForgatas("To", origin, d, jobb, jobb, jobb, d, d, d);
+			Forgat.addForgatas("li", origin, f, f, jobb_reteg, f, f);
+			Forgat.addForgatas("lu", origin, f, f, jobb_reteg, jobb_reteg, f, f);
+			Forgat.addForgatas("lo", origin, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f);
+			Forgat.addForgatas("ri", origin, jobb_reteg);
+			Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
+			Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
+		}
 
-		t = Forgat.forgatasok(origin, jobb);
-		t2 = Forgat.forgatasok(origin, jobb, jobb_reteg, f, d, d, d, f, f, f);
 //		Forgat.addForgatas("jobb2", origin, t2 );
 //		Forgat.addForgatas("felul2", origin, d, t2, d, d, d );
 //		Forgat.addForgatas("elol2", origin, f, f, f, t2, f  );
 //		Forgat.addForgatas("jobb", origin, t );
-		Forgat.addForgatas("felul", origin, d, t, d, d, d, f, f, f );
-		Forgat.addForgatas("elol", origin, f, f, f, t, f  );
+//		Forgat.addForgatas("felul", origin, d, t, d, d, d, f, f, f );
+//		Forgat.addForgatas("elol", origin, f, f, f, t, f  );
 //		Forgat.addForgatas("bal", origin, f, f, t, f, f );
 //		Forgat.addForgatas("alul", origin, d, d, d, t, d );
-		Forgat.addForgatas("hatul", origin, f, t, f, f, f );
+//		Forgat.addForgatas("hatul", origin, f, t, f, f, f );
 //		Forgat.addForgatas("jobb(2)", origin, t, t );
-		Forgat.addForgatas("felul(2)", origin, d, t, t, d, d, d, f, f );
-		Forgat.addForgatas("elol(2)", origin, f, f, f, t, t, f  );
+//		Forgat.addForgatas("felul(2)", origin, d, t, t, d, d, d, f, f );
+//		Forgat.addForgatas("elol(2)", origin, f, f, f, t, t, f  );
 //		Forgat.addForgatas("bal(2)", origin, f, f, t, t, f, f );
 //		Forgat.addForgatas("alul(2)", origin, d, d, d, t, t, d );
-		Forgat.addForgatas("hatul(2)", origin, f, t, t, f, f, f );
-		Forgat.addForgatas("jobb_reteg", origin, jobb_reteg );
+//		Forgat.addForgatas("hatul(2)", origin, f, t, t, f, f, f );
+//		Forgat.addForgatas("jobb_reteg", origin, jobb_reteg );
 //		Forgat.addForgatas("felul_reteg", origin, d, jobb_reteg, d, d, d);
 //		Forgat.addForgatas("elol_reteg", origin, f, jobb_reteg, f, f, f);
-		Forgat.addForgatas("bal_reteg", origin, f, f, jobb_reteg, f, f );
+//		Forgat.addForgatas("bal_reteg", origin, f, f, jobb_reteg, f, f );
 //		Forgat.addForgatas("alul_reteg", origin, d, d, d, jobb_reteg, d );
 //		Forgat.addForgatas("hatul_reteg", origin, f, jobb_reteg, f, f, f );
 		
@@ -193,21 +306,37 @@ public class Kocka4x4x4 extends Kocka
 
     
     
+//    private static byte [] pill = {
+//    		1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 7, 1,  1, 2, 2, 1, // felső: fekete
+//			2, 1, 1, 2,  2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2, // első: piros
+//			3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3, // jobb kék
+//			4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4, // hátsó narancs
+//			5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5, // bal: zöld
+//			6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6, // alsó: sárga
+//	};
+//    private static byte [] target = {
+//    		1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1, // felső: fekete
+//			2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2, // első: piros
+//			3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3, // jobb kék
+//			4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4, // hátsó narancs
+//			5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5, // bal: zöld
+//			6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6, // alsó: sárga
+//	};
     private static byte [] pill = {
-    		1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 2, 2, 1, // felső: fekete
-			2, 1, 1, 2,  2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2, // első: piros
-			3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3, // jobb kék
-			4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4, // hátsó narancs
-			5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5, // bal: zöld
-			6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6, // alsó: sárga
+			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 7, 0, 0, 0, 0, 0, // felső: fekete
+			0, 0, 0, 0, 0, 4, 6, 0, 0, 2, 6, 0, 0, 0, 0, 0, // első: piros
+			0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0, 0, 4, 2, 0, 0, 4, 2, 0, 0, 0, 0, 0, // hátsó narancs
+			0, 0, 0, 0, 0, 5, 5, 0, 0, 5, 5, 0, 0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0, 0, 6, 4, 0, 0, 6, 2, 0, 0, 0, 0, 0, // alsó: sárga
 	};
     private static byte [] target = {
-    		1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1, // felső: fekete
-			2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2, // első: piros
-			3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3, // jobb kék
-			4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4, // hátsó narancs
-			5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5, // bal: zöld
-			6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6, // alsó: sárga
+			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
+			0, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0, // első: piros
+			0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0, 0, 4, 4, 0, 0, 4, 4, 0, 0, 0, 0, 0, // hátsó narancs
+			0, 0, 0, 0, 0, 5, 5, 0, 0, 5, 5, 0, 0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0, 0, 6, 6, 0, 0, 6, 6, 0, 0, 0, 0, 0, // alsó: sárga
 	};
     
     
@@ -281,6 +410,101 @@ public class Kocka4x4x4 extends Kocka
     {
         ready, centrums
     };
+	// A névben jelzett oldalt a tetőre mozgatja
+	//private static int [] felul_side = Forgat.forgatasok( origin );
+	private static int [] felul_side = origin;
+	private static int [] elol_side = Forgat.forgatasok( origin, egesz_bal, jobbra_dont );
+	private static int [] jobb_side = Forgat.forgatasok( origin, jobbra_dont, jobbra_dont, jobbra_dont );
+	private static int [] hatul_side = Forgat.forgatasok( origin, egesz_bal, jobbra_dont, jobbra_dont, jobbra_dont );
+	private static int [] bal_side = Forgat.forgatasok( origin, jobbra_dont );
+	private static int [] alul_side = Forgat.forgatasok( origin, jobbra_dont, jobbra_dont );
+	private static int [][] sides = { felul_side,  elol_side, jobb_side, hatul_side, bal_side, alul_side };
+	/**
+     * Normalizál egy állást, hogy az összehasonlítás megoldható legyen
+     * Ez a konkrét esetekben azt jelenti, hogy az összehasonlításnál van egy fix pont.
+     * A 4x4x4-es kockán a fix pont a "V" betűvel jelölt fekete mező. 
+     * Az a normalizált állapotban, a teteőn, a (3,3) pozíción található
+     */
+	@Override
+	protected byte [] getNorma(byte [] act )
+	{
+		int place = searchRefElement(act);
+		int side = place/cntCol;	// melyik oldal
+			// A felső oldalra forgatjuk
+		byte [] top = Forgat.forgat(act, sides[side]);
+		
+			// Megnézzük hányat kell fordítani, hogy a helyére kerüljön
+		int posNum = getPosNum(top);
+		byte [] ret = top;
+		for ( int i=1; i<=posNum; i++ )
+			ret = Forgat.forgat(ret, egesz_bal);
+		return ret;
+	}
+	/**
+	 * Visszadja a referenciaelem helyét a tömbben
+	 * @param t
+	 * @return
+	 */
+	private int searchRefElement(byte [] t)
+	{
+		for ( int i=0; i<t.length; i++ )
+		{
+			if ( t[i] == _REF_ELEMENT )
+				return i;
+		}
+		return (-1);
+	}
+	/**
+	 * Visszadja hogy hányat kell a kockán fordítani, hogy a tetőn lévő referenciaelem a helyére kerüljön
+	 * @param t
+	 * @return
+	 */
+	private int getPosNum(byte [] t)
+	{
+		int i;
+		for ( i=0; i<t.length; i++ )
+		{
+			if ( t[i] == _REF_ELEMENT )
+				break;
+		}
+		switch (i)
+		{
+		case 10 : return 0;
+		case 9 : return 3;
+		case 5 : return 2;
+		case 6 : return 1;
+		default: return -1;
+		}
+	}
+	/**
+	 * A cél függvény.
+	 * Visszatérés true, ha elégedettek vagyunk a pillanatnyi állapottal
+	 * getTarget() fv mondja meg, hogy mi az aktuális cél
+	 * Ha a "target" pozíción 0 van, ott bármi lehet
+	 * 
+	 * Ha nem konkrét eredményt várunk, akkor felülírható (pl. Domino)
+	 */
+	@Override
+	public boolean isReady()
+    {
+    	byte [] target = getTarget();
+        for ( int i=0; i<actual.length; i++ )
+        {
+            if ( target[i] == 0 )    // itt mindegy mi van
+            {
+                continue;
+            }
+            byte act = actual[i];
+            if ( act == _REF_ELEMENT)
+            	act = 1;
+            if ( act != target[i] )    // eltérés
+            {
+                return false;  // ez nem jó
+            }
+        }
+        return true;	//Minden OK
+    }
+	
 	@Override
     public String toString( byte [] tabla )
     {

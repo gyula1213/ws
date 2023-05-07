@@ -167,8 +167,8 @@ public class Kocka implements Gameable, Cubeable
     		return false;
     	
     	byte [] stage = ((Kocka)game).getActual();
-    	//return equals( getNorma(stage), getNorma(actual) );
-    	return equals( stage, actual );
+    	return equals( getNorma(stage), getNorma(actual) );
+    	//return equals( stage, actual );
     }
     
     @Override

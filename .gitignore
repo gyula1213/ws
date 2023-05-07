@@ -1,2 +1,12 @@
+.metadata/
+docker/
+target/
+.settings/
+*/.settings/
+*/target
+.recommenders/
+*~
+*.swp
+.idea/
+*.iml
 *.zip
-*.log

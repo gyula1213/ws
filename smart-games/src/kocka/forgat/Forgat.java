@@ -62,6 +62,17 @@ public class Forgat {
 		check( name, x);
 		forgatasok.add( new Forgat(name, x));
 	}
+	/**
+	 * Hozzáad egy új forgatást a gyűjteményhez
+	 * @param name	: A forgatás neve (későbbi azonosítója)
+	 * @param orig	: Az eredeti állapot
+	 * @param commands	: forgatási mátrixok egymás utánja
+	 */
+	public static void addForgatas(String name, int [] orig, String ... commands) {
+		int [] x = Forgat.forgatasok(orig, commands);
+		check( name, x);
+		forgatasok.add( new Forgat(name, x));
+	}
     /**
      * Azt a mátrixot adjuk vissza, ami az adott forgatáshoz szükséges, ha a forgatás nem aktív, akkor null-t
      * @param melyik
@@ -126,6 +137,14 @@ public class Forgat {
 	public static int [] forgatasok(int [] orig, int [] ... commands ) {
 		int [] ret = orig;
 		for ( int [] act:commands ) {
+			ret = forgat( ret, act );
+		}
+		return ret;
+	}
+	public static int [] forgatasok(int [] orig, String ... commands ) {
+		int [] ret = orig;
+		for ( String s:commands ) {
+			int [] act = getMatrix(s);
 			ret = forgat( ret, act );
 		}
 		return ret;

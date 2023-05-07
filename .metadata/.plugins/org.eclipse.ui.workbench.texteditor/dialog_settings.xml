@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="equ"/>
+		<item key="selection" value="searc"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="searc"/>
+			<item value="pill"/>
 			<item value="equ"/>
 			<item value="2"/>
 			<item value="init"/>
@@ -21,8 +23,6 @@
 			<item value="mGame"/>
 			<item value="restart"/>
 			<item value="jobb"/>
-			<item value="mJobb"/>
-			<item value="kocka"/>
 		</list>
 		<list key="replacehistory">
 			<item value="0"/>

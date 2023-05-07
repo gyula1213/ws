@@ -128,9 +128,9 @@ public class Kocka3x3x3 extends Kocka
 		
 		Forgat.init();
 
-		Forgat.addForgatas("teker", t);
-		Forgat.addForgatas("fordit", f);
-		Forgat.addForgatas("dont", d);
+		Forgat.addForgatas("teker", origin, t);
+		Forgat.addForgatas("fordit", origin, f);
+		Forgat.addForgatas("dont", origin, d);
 		
 		Forgat.addForgatas("felul", origin, d, t, d, d, d );
 		Forgat.addForgatas("felul2", origin, d, t, t, d, d, d );
