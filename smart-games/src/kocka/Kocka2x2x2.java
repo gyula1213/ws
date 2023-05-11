@@ -15,12 +15,12 @@ public class Kocka2x2x2 extends Kocka
 	private static boolean combinedStep = false;	// Ha false, akkor elemi forgatások a 3 (jobb,elöl,alul) irányban egyet jobbra
 											// ha true, akkor összetett forgatások a fenti irányban: 1,2,3 jobbra fordulat
 	private static int cntCol = 4;
-    protected Kocka2x2x2( byte [] stage, int prevStep )
+    protected Kocka2x2x2( int [] stage, int prevStep )
     {
     	super( stage, prevStep );
     	initForgatasok();
     }
-    public Kocka2x2x2( byte [] stage )
+    public Kocka2x2x2( int [] stage )
     {
     	this( stage, -1 );
     	idSzamlalo=1;
@@ -29,7 +29,7 @@ public class Kocka2x2x2 extends Kocka
     {
     	this( kockak[melyik] );
     }
-    public Kocka newForgat( byte [] stage, int prevStep )
+    public Kocka newForgat( int [] stage, int prevStep )
 	{
     	return new Kocka2x2x2( stage, prevStep );
 	}
@@ -48,7 +48,7 @@ public class Kocka2x2x2 extends Kocka
 	 * @return
 	 */
     @Override
-	public byte [] getTarget()
+	public int [] getTarget()
     {
     	return ready;
     }
@@ -141,7 +141,7 @@ public class Kocka2x2x2 extends Kocka
 			22, 20, 23, 21,		// alsó --> bal
 			10,  8, 11,  9,		// jobb --> alul
 	};
-    private static byte [] ready = {
+    private static int [] ready = {
 			1, 1, 1, 1, // felső: fehér
 			2, 2, 2, 2, // első: zöld
 			3, 3, 3, 3, // jobb: piros
@@ -151,21 +151,21 @@ public class Kocka2x2x2 extends Kocka
 	};
 	// Így néz ki most a kocka
 	//private static int [] pill = {1,5,2,6,     5,4,2,3,     3,6,1,3,     2,4,6,6,     5,1,4,3,    1,4,5,2      };
-	//private static byte [] pill = {1,2,3,6,     1,5,2,6,     4,1,3,2,     5,4,3,2,     5,4,6,3,    1,4,5,6      };	// ez fejthető
+	//private static int [] pill = {1,2,3,6,     1,5,2,6,     4,1,3,2,     5,4,3,2,     5,4,6,3,    1,4,5,6      };	// ez fejthető
 	//private static int [] pill = {1,1,1,1,     2,2,2,3,     3,3,6,6,     4,4,3,4,     5,5,5,5,    6,2,6,4      };	//2 elforgatva (nem megy)
 	//private static int [] pill = {1,1,1,1,     2,2,2,3,     3,3,4,4,     4,4,5,2,     5,5,3,5,    6,6,6,6      }; //3-at körbe cserél
 	//private static int [] pill = {1,1,1,1,     2,2,3,5,     3,3,2,3,     4,4,4,4,     5,5,5,2,    6,6,6,6      };
 	//private static int [] pill = {1,4,5,5,     2,2,5,2,     1,3,1,1,     6,4,4,3,     5,6,6,4,    6,3,2,3      };
 	//private static int [] pill = {1,2,1,2,     2,6,2,6,     3,3,3,3,     1,4,1,4,     5,5,5,5,    6,4,6,4      };
 	//private static int [] pill = {1,1,3,1,     6,2,2,3,     3,3,4,6,     4,4,5,4,     5,2,5,1,    5,6,6,2      };
-	private static byte [] pill = {1,1,1,1,     2,2,5,4,     3,3,6,4,     4,4,5,2,     5,5,3,6,    2,3,6,6      };
+	private static int [] pill = {1,1,1,1,     2,2,5,4,     3,3,6,4,     4,4,5,2,     5,5,3,6,    2,3,6,6      };
 
-	private static byte [][] kockak = 
+	private static int [][] kockak = 
     {
         ready, pill
     };
 
-    private static byte [] teteje = {
+    private static int [] teteje = {
 			1, 1, 1, 1, // felső: fehér
 			0, 0, 0, 0, // első: zöld
 			0, 0, 0, 0, // jobb: piros
@@ -173,7 +173,7 @@ public class Kocka2x2x2 extends Kocka
 			0, 0, 0, 0, // bal: narancs
 			0, 0, 0, 0, // alsó: kék
 	};
-    private static byte [] teteje_oldala = {
+    private static int [] teteje_oldala = {
 			1, 1, 1, 1, // felső: fehér
 			2, 2, 0, 0, // első: zöld
 			3, 3, 0, 0, // jobb: piros
@@ -181,7 +181,7 @@ public class Kocka2x2x2 extends Kocka
 			5, 5, 0, 0, // bal: narancs
 			0, 0, 0, 0, // alsó: kék
 	};
-    private static byte [] cel = {
+    private static int [] cel = {
 			1, 1, 1, 1, // felső: fehér
 			2, 2, 2, 2, // első: zöld
 			3, 3, 3, 3, // jobb: piros
@@ -189,7 +189,7 @@ public class Kocka2x2x2 extends Kocka
 			5, 5, 5, 5, // bal: narancs
 			6, 6, 6, 6, // alsó: kék
 	};
-	private static byte [][] targets = 
+	private static int [][] targets = 
     {
         cel, teteje, teteje_oldala
     };

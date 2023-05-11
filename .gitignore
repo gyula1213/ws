@@ -1,12 +1,24 @@
-.metadata/
-docker/
+# maven
 target/
+
+.env
+
+# Eclipse project files
 .settings/
-*/.settings/
-*/target
+#.checkstyle
+.metadata/
 .recommenders/
+RemoteSystemsTempFiles/
+**/.sts4-cache/
+
+# temporal crap
+*#
 *~
-*.swp
-.idea/
-*.iml
+
+/docker/deployments
+/docker/data
+/docker/log
+/docker/static
+
+*.code-workspace
 *.zip

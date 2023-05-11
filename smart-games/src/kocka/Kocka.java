@@ -24,16 +24,22 @@ public class Kocka implements Gameable, Cubeable
     protected int id;
 	
     protected byte [] actual;
-    private static byte [] saveStarted;
+    private static int [] saveStarted;
+    protected static int [] target;
     
-    protected Kocka( byte [] stage, int prevStep )
+    protected Kocka( int [] stage, int prevStep )
     {
     	this.prevStep = prevStep;
         this.actual = MemoryTest.zip(stage);
         saveStarted = stage;
         id = idSzamlalo++;
     }
-    public Kocka newForgat( byte [] stage, int prevStep )
+    public Kocka( int [] stage )
+    {
+    	this( stage, -1 );
+    	idSzamlalo=1;
+    }
+    public Kocka newForgat( int [] stage, int prevStep )
 	{
     	return new Kocka( stage, prevStep );
 	}
@@ -61,7 +67,7 @@ public class Kocka implements Gameable, Cubeable
 	 */
 	public boolean isReady()
     {
-    	byte [] target = getTarget();
+    	int [] target = getTarget();
         for ( int i=0; i<actual.length; i++ )
         {
             if ( target[i] == 0 )    // itt mindegy mi van
@@ -80,9 +86,9 @@ public class Kocka implements Gameable, Cubeable
 	 * Származtatott osztályban kell megadni 
 	 * @return
 	 */
-	public byte [] getTarget()
+	public int [] getTarget()
     {
-    	return new byte[actual.length];
+    	return target;
     }
 	/**
 	 * @param melyik
@@ -103,7 +109,7 @@ public class Kocka implements Gameable, Cubeable
     {
         return id;
     }
-    private byte [] getActual()
+    public int [] getActual()
     {
         return MemoryTest.unzip(actual);
     }
@@ -115,19 +121,19 @@ public class Kocka implements Gameable, Cubeable
         for ( int i=0; i<getForgatasokDb(); i++ )
         {
             //System.out.println("Actual:\n" + toString(actual));
-            byte [] nextStage = forgat(i);    //lépjünk egyet
+            int [] nextStage = forgat(i);    //lépjünk egyet
             if ( nextStage == null )
                 continue;
             //System.out.println("Irany: " + irany + "\n");
             //System.out.println(toString(nextStage));
-            if ( equals( actual, nextStage))
+            if ( equals( getActual(), nextStage))
             	continue;
             game = newForgat( nextStage, i );
             ret.add(game);
         }
         return ret;
     }
-	private byte [] forgatx( byte [] param, int lepes )
+	private int [] forgatx( int [] param, int lepes )
 	{
         int [] forog = getForgatasok(lepes);
         return Forgat.forgat( param, forog );
@@ -137,7 +143,7 @@ public class Kocka implements Gameable, Cubeable
 	 * @param lepes
 	 * @return
 	 */
-	private byte [] forgat( int lepes )
+	private int [] forgat( int lepes )
 	{
         int [] forog = getForgatasok(lepes);
         if ( forog == null )
@@ -150,10 +156,10 @@ public class Kocka implements Gameable, Cubeable
 	 * @param n
 	 * @return
 	 */
-	private byte [] forgat( int lepes, int n )
+	private int [] forgat( int lepes, int n )
 	{
         int [] forog = getForgatasok(lepes);
-        byte [] act = getActual();
+        int [] act = getActual();
         for( int i=0; i<n; i++ )
     	{
             act = Forgat.forgat( act, forog );
@@ -166,8 +172,8 @@ public class Kocka implements Gameable, Cubeable
     	if (!(game instanceof Kocka))
     		return false;
     	
-    	byte [] stage = ((Kocka)game).getActual();
-    	return equals( getNorma(stage), getNorma(actual) );
+    	int [] stage = ((Kocka)game).getActual();
+    	return equals( getNorma(stage), getNorma(getActual()) );
     	//return equals( stage, actual );
     }
     
@@ -177,7 +183,7 @@ public class Kocka implements Gameable, Cubeable
     	return Arrays.hashCode(actual);
     }
 	    // Visszatérés true, ha a két tábla ugyanaz
-    protected boolean equals(byte [] t1, byte [] t2 )
+    protected boolean equals(int [] t1, int [] t2 )
     {
         for ( int i=0; i<t1.length; i++ )
         {
@@ -195,7 +201,7 @@ public class Kocka implements Gameable, Cubeable
      * @param t
      * @return
      */
-	protected byte [] getNorma(byte [] t )
+	protected int [] getNorma(int [] t )
 	{
 		return t;
 	}
@@ -240,7 +246,7 @@ public class Kocka implements Gameable, Cubeable
     {
     	return 9;
     }
-    public String toString( byte [] tabla )
+    public String toString( int [] tabla )
     {
         String s="";
         String [] colors = getColors();
@@ -260,12 +266,25 @@ public class Kocka implements Gameable, Cubeable
         return s;
     }
     public  void initForgatasok() {
-    	
+    }
+    public  void addAllSimpleForgatas() {
     }
     private int sec = 0;
 	@Override
 	public void init() {
 		initForgatasok();
+	}
+	@Override
+	public void init(String... commands) {
+		addAllSimpleForgatas();
+		for ( String s : commands ) {
+			String [] x = s.split("-");
+			if ( x.length > 1 )
+				Forgat.addForgatas(s, getOriginal(), x);
+			
+		}
+		Forgat.setAllActive(false);
+		Forgat.setActive(true, commands);
 	}
 	@Override
 	public int getCnt() {
@@ -290,16 +309,26 @@ public class Kocka implements Gameable, Cubeable
 		return isReady();
 	}
 	@Override
-	public byte[] getActTable() {
+	public int[] getActTable() {
 		return getActual();
 	}
 	@Override
 	public void forgat( String name ) {
 		int [] matrix = Forgat.getMatrix(name);
-        actual = Forgat.forgat( getActual(), matrix );
+        actual = MemoryTest.zip(Forgat.forgat( getActual(), matrix ));
 	}
 	@Override
 	public void restart() {
-		actual = saveStarted.clone();
+		actual = MemoryTest.zip(saveStarted);
+	}
+	@Override
+	public int[] getOriginal() {
+		return null;
+	}
+	@Override
+	public void setTarget(int[] t) {
+		target = t;
+		// TODO Auto-generated method stub
+		
 	}
 }

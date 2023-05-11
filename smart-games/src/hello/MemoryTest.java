@@ -22,7 +22,7 @@ public class MemoryTest {
 		System.out.println("Hello world!");
 	    HashMap<MemoryTest,MemoryTest> collStages = new HashMap<>(); 	// Itt gyűjtjük a játékokat jellemző állapotot
 		
-	    byte [] act = new byte [96];
+	    int [] act = new int [96];
 	    act [1] = 1;
 	    act [2] = 2;
 	    act [3] = 3;
@@ -30,7 +30,7 @@ public class MemoryTest {
 	    act [6] = 2;
 	    act [7] = 1;
 	    byte[] ret = zip(act);
-	    byte [] act2 = unzip(ret);
+	    int [] act2 = unzip(ret);
 	    for ( int i=0; i<12; i++ )
 	    	System.out.println( act2[i] + ", ");
 		int cnt = 0;
@@ -50,11 +50,27 @@ public class MemoryTest {
 		}
 
 	}
-    public static byte [] zip( byte [] act) {
-    	return act;
+	/**
+	 * Tömörítés
+	 * @param act
+	 * @return
+	 */
+    public static byte [] zip( int [] act) {
+    	byte [] ret = new byte [act.length];
+    	for ( int i=0; i<act.length; i++ )
+    		ret [i] = (byte)act[i];
+    	return ret;
     }
-    public static byte [] unzip( byte [] act) {
-    	return act;
+	/**
+	 * Tömörítés
+	 * @param act
+	 * @return
+	 */
+    public static int [] unzip( byte [] act) {
+    	int [] ret = new int [act.length];
+    	for ( int i=0; i<act.length; i++ )
+    		ret [i] = act[i];
+    	return ret;
     }
 //    public static byte [] zip( byte [] act) {
 //    	byte [] ret = new byte[24];

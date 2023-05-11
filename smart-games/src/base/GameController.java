@@ -1,6 +1,8 @@
 package base;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import sakk.Sakk;
@@ -120,6 +122,15 @@ public class GameController
 	    }
 		return solver(stagesForNext);
     }
+	List<String> result;
+	public String [] getResult()
+	{
+		String [] ret = new String[result.size()];
+		int i = ret.length;
+		for ( String s : result )
+			ret[--i] = s;
+		return ret;
+	}
 	private void printHistory( Gameable g )
     {
 //	    Vector<Gameable> histStages = collStages.get(g);
@@ -130,11 +141,12 @@ public class GameController
 //	    	//System.out.println(game);
 //	    	System.out.print(game.getPrevStep()+",");
 //	    }
-		
+		result = new ArrayList<>();
 	    String s = "";
 	    int cnt = 1;
 	    Gameable prevStage = collStages.get(g);
 	    String prevStep = g.getPrevStep();
+    	result.add(prevStep);
 	    int tmp=1;
 	    while( true )
 	    {
@@ -143,6 +155,7 @@ public class GameController
 	    	String act = prevStage.getPrevStep();
 	    	if ( "init".equals(act)) 
 	    		break;
+	    	result.add(act);
 	    	if ( act.equals(prevStep)) {
 	    		tmp++;
 	    	}

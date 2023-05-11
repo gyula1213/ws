@@ -13,12 +13,12 @@ import kocka.forgat.Forgat;
 public class Karika extends Kocka
 {
     private static String [] colors = {"x", "P", "F", "S", "K"};
-    protected Karika( byte [] stage, int prevStep )
+    protected Karika( int [] stage, int prevStep )
     {
     	super( stage, prevStep );
     	initForgatasok();
     }
-    public Karika( byte [] stage )
+    public Karika( int [] stage )
     {
     	this( stage, -1 );
     	idSzamlalo=1;
@@ -27,7 +27,7 @@ public class Karika extends Kocka
     {
     	this( kockak[melyik] );
     }
-    public Kocka newForgat( byte [] stage, int prevStep )
+    public Kocka newForgat( int [] stage, int prevStep )
 	{
     	return new Karika( stage, prevStep );
 	}
@@ -41,7 +41,7 @@ public class Karika extends Kocka
 	 * @return
 	 */
     @Override
-	public byte [] getTarget()
+	public int [] getTarget()
     {
     	//return ready;
     	return target;
@@ -110,7 +110,7 @@ public class Karika extends Kocka
 			  4, 19, 20, 21, 22,	// alsó kör teteje
 			 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36	// alsó kör alja
 	};
-    private static byte [] ready = {
+    private static int [] ready = {
     		4, 4, 4, 4, 4, // kék
     		4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 	// piros
     		2, 2, 2, 2, 2, // fekete
@@ -120,7 +120,7 @@ public class Karika extends Kocka
     /**
      * Így néz ki most a karika
      */
-	private static byte [] pill = {
+	private static int [] pill = {
     		4, 4, 4, 4, 2, // kék
     		4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 	// piros
     		2, 2, 2, 3, 3, // fekete
@@ -129,14 +129,14 @@ public class Karika extends Kocka
     /**
      * A pillanatnyi cél
      */
-	private static byte [] target = {
+	private static int [] target = {
     		4, 4, 4, 4, 2, // kék
     		4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 	// piros
     		2, 2, 2, 2, 3, // fekete
     		3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   // sárga
 	};
 
-	private static byte [][] kockak = 
+	private static int [][] kockak = 
     {
         ready, pill
     };

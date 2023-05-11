@@ -104,7 +104,7 @@ public class CubePane extends BorderPane {
 	/**
 	 * 
 	 */
-	private void paintTable(GraphicsContext gc, byte[] tomb) {
+	private void paintTable(GraphicsContext gc, int[] tomb) {
 		for (int k = 0; k < 6; k++) {	// Lapok
 			for (int i = 0; i < size; i++) {
 				for (int j = 0; j < size; j++) {
@@ -116,7 +116,7 @@ public class CubePane extends BorderPane {
 			}
 		}
 	}
-	private void setColor(GraphicsContext gc, byte col) {
+	private void setColor(GraphicsContext gc, int col) {
 		String [] cols = cube.getColors();
 	    //private static String [] colors = {"x", "F", "P", "K", "N", "Z", "S"};
 		switch( cols[col] )

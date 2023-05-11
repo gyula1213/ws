@@ -222,8 +222,8 @@ public class Numbers implements Gameable
     public static void main(String[] args)
     {
         System.out.println("Indul...");
-        int [] num = { 3, 5, 6, 7, 9, 11 }; 
-        Numbers game = new Numbers( num, 315 );
+        int [] num = { 4, 5, 9, 11, 15, 20 }; 
+        Numbers game = new Numbers( num, 317 );
         //int [] num = { 1, 2, 3 }; 
         //Numbers game = new Numbers( num, 6 );
         System.out.println(game);

@@ -16,11 +16,11 @@ public class Kocka3x3x3 extends Kocka
 {
 	static int cntCol = 9;
     private static String [] colors = {"x", "F", "Z", "P", "K", "N", "S"};
-    private Kocka3x3x3( byte [] stage, int prevStep )
+    private Kocka3x3x3( int [] stage, int prevStep )
     {
     	super( stage, prevStep );
     }
-    public Kocka3x3x3( byte [] stage )
+    public Kocka3x3x3( int [] stage )
     {
     	this( stage, -1 );
     	idSzamlalo=1;
@@ -29,7 +29,7 @@ public class Kocka3x3x3 extends Kocka
     {
     	this( kockak[melyik] );
     }
-    public Kocka newForgat( byte [] stage, int prevStep )
+    public Kocka newForgat( int [] stage, int prevStep )
 	{
     	return new Kocka3x3x3( stage, prevStep );
 	}
@@ -48,7 +48,7 @@ public class Kocka3x3x3 extends Kocka
 	 * @return
 	 */
     @Override
-	public byte [] getTarget()
+	public int [] getTarget()
     {
     	return ready;
     }
@@ -156,7 +156,7 @@ public class Kocka3x3x3 extends Kocka
 		Forgat.addForgatas("alul2", origin, d, f, f, t, t, d, f, f);
 		Forgat.addForgatas("alul3", origin, d, f, f, t, t, t, d, f, f);
 	}
-    private static byte [] ready = {
+    private static int [] ready = {
 			1, 1, 1, 1, 1, 1, 1, 1, 1, // felső: fehér
 			2, 2, 2, 2, 2, 2, 2, 2, 2, // első: zöld
 			3, 3, 3, 3, 3, 3, 3, 3, 3, // jobb: piros
@@ -165,7 +165,7 @@ public class Kocka3x3x3 extends Kocka
 			6, 6, 6, 6, 6, 6, 6, 6, 6, // alsó: sárga
 	};
 	// Így néz ki most a kocka
-	private static byte [] pill = {
+	private static int [] pill = {
 			1, 1, 1, 1, 1, 1, 1, 1, 1, // felső: fehér
 			2, 2, 2, 2, 2, 2, 2, 2, 2, // első: zöld
 			3, 3, 3, 3, 3, 3, 3, 3, 3, // jobb: piros
@@ -174,7 +174,7 @@ public class Kocka3x3x3 extends Kocka
 			6, 6, 6, 6, 6, 6, 6, 6, 5, // alsó: sárga
 	};
 	// teszt
-	private static byte [] teszt = {
+	private static int [] teszt = {
 			2, 1, 5, 4, 1, 5, 3, 1, 5, // felső: fehér
 			1, 3, 1, 5, 2, 2, 5, 2, 2, // első: zöld
 			4, 4, 4, 1, 3, 1, 1, 5, 5, // jobb: piros
@@ -182,12 +182,12 @@ public class Kocka3x3x3 extends Kocka
 			3, 6, 4, 3, 5, 2, 3, 3, 2, // bal: narancs
 			1, 3, 3, 4, 6, 6, 4, 6, 6, // alsó: sárga
 	};
-	private static byte [][] kockak = 
+	private static int [][] kockak = 
 	    {
 	        ready, pill
 	    };
 
-    private static byte [] teteje = {
+    private static int [] teteje = {
 			1, 1, 1, 1, 1, 1, 1, 1, 1, // felső: fehér
 			2, 2, 2, 0, 0, 0, 0, 0, 0, // első: zöld
 			3, 3, 3, 0, 0, 0, 0, 0, 0, // jobb: piros

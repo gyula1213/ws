@@ -125,7 +125,7 @@ public class Forgat {
         }
 	    return ret;
 	}
-	static int [] forgat( int [] orig, int [] matrix )
+	public static int [] forgat( int [] orig, int [] matrix )
 	{
         int [] ret = new int [orig.length];
         for (int i=0; i<orig.length; i++)	// lemásoljuk
@@ -143,10 +143,32 @@ public class Forgat {
 	}
 	public static int [] forgatasok(int [] orig, String ... commands ) {
 		int [] ret = orig;
-		for ( String s:commands ) {
+		for ( String s:getExtended3(commands) ) {
 			int [] act = getMatrix(s);
 			ret = forgat( ret, act );
 		}
+		return ret;
+	}
+	/**
+	 * Az egybetűs forgatási parancsot kiterjesztjük mindhárom forgatásra
+	 * @param commands
+	 * @return
+	 */
+	private static String [] getExtended3( String ... commands) {
+		List<String> tmp = new ArrayList<>();
+		for ( String s:commands ) {
+			if ( s.length() == 1 ) {		// Az egy betűs forgatásnevekhez mind a 3 irányt hozzákapcsoljuk
+				tmp.add(s+"i");
+				tmp.add(s+"u");
+				tmp.add(s+"o");
+			}
+			else
+				tmp.add(s);
+		}
+		String [] ret = new String[tmp.size()];
+		int i = 0;
+		for ( String s : tmp )
+			ret[i++] = s;
 		return ret;
 	}
 	/**
@@ -163,7 +185,7 @@ public class Forgat {
 	 * @param flag
 	 */
 	public static void setActive(boolean flag, String ... names ) {
-		for ( String name:names ) {
+		for ( String name:getExtended3(names) ) {
 			Forgat f = searchByName(name);
 			f.setActive(flag);
 		}

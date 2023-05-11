@@ -1,10 +1,13 @@
 package kocka.kocka4;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import base.GameController;
 import base.Gameable;
 import kocka.Kocka;
+import kocka.OneStep;
 import kocka.forgat.Forgat;
 
 //
@@ -26,11 +29,11 @@ public class Kocka4x4x4 extends Kocka
     private static boolean ruBuTuli = false;
     private static boolean centrum = true;
 	
-    protected Kocka4x4x4( byte [] stage, int prevStep )
+    protected Kocka4x4x4( int [] stage, int prevStep )
     {
     	super( stage, prevStep );
     }
-    public Kocka4x4x4( byte [] stage )
+    public Kocka4x4x4( int [] stage )
     {
     	this( stage, -1 );
     	idSzamlalo=1;
@@ -39,7 +42,7 @@ public class Kocka4x4x4 extends Kocka
     {
     	this( kockak[melyik] );
     }
-    public Kocka newForgat( byte [] stage, int prevStep )
+    public Kocka newForgat( int [] stage, int prevStep )
 	{
     	return new Kocka4x4x4( stage, prevStep );
 	}
@@ -58,7 +61,7 @@ public class Kocka4x4x4 extends Kocka
 	 * @return
 	 */
     @Override
-	public byte [] getTarget()
+	public int [] getTarget()
     {
     	return target;
     	//return sarok;
@@ -68,6 +71,14 @@ public class Kocka4x4x4 extends Kocka
     	//return centrums;
     	//return ready;
     }
+    /**
+     * Visszadja az original tömböt (hogy hogyan számoztuk meg az eredeti elemeket
+     */
+	@Override
+	public int[] getOriginal() {
+		return origin;
+	}
+    
     /**
      * Beállítjuk a lehetséges forgatásokat
      * Minden forgatás olyan (legyen), hogya a ref pozíciót (felső oldalon 3;3 pozícióban a "V" betű) a helyén tartja
@@ -89,54 +100,7 @@ public class Kocka4x4x4 extends Kocka
 
 		if ( all )
 		{
-			// Tető
-			Forgat.addForgatas("Ti", origin, d, jobb, d, d, d);
-			Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
-			Forgat.addForgatas("To", origin, d, jobb, jobb, jobb, d, d, d);
-			Forgat.addForgatas("ti", origin, d, jobb_reteg, d, d, d);
-			Forgat.addForgatas("tu", origin, d, jobb_reteg, jobb_reteg, d, d, d);
-			Forgat.addForgatas("to", origin, d, jobb_reteg, jobb_reteg, jobb_reteg, d, d, d);
-	
-				// Elöl
-			Forgat.addForgatas("Fi", origin, f, f, f, jobb, f);
-			Forgat.addForgatas("Fu", origin, f, f, f, jobb, jobb, f);
-			Forgat.addForgatas("Fo", origin, f, f, f, jobb, jobb, jobb, f);
-			Forgat.addForgatas("fi", origin, f, f, f, jobb_reteg, f);
-			Forgat.addForgatas("fu", origin, f, f, f, jobb_reteg, jobb_reteg, f);
-			Forgat.addForgatas("fo", origin, f, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f);
-		
-				// Jobb oldal
-			Forgat.addForgatas("Ri", origin, jobb);
-			Forgat.addForgatas("Ru", origin, jobb, jobb);
-			Forgat.addForgatas("Ro", origin, jobb, jobb, jobb );
-			Forgat.addForgatas("ri", origin, jobb_reteg);
-			Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
-			Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
-	
-	
-				// Hátul
-			Forgat.addForgatas("Bi", origin, f, jobb, f, f, f);
-			Forgat.addForgatas("Bu", origin, f, jobb, jobb, f, f, f);
-			Forgat.addForgatas("Bo", origin, f, jobb, jobb, jobb, f, f, f);
-			Forgat.addForgatas("bi", origin, f, jobb_reteg, f, f, f);
-			Forgat.addForgatas("bu", origin, f, jobb_reteg, jobb_reteg, f, f, f);
-			Forgat.addForgatas("bo", origin, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f, f);
-			
-				// Bal
-			Forgat.addForgatas("Li", origin, f, f, jobb, f, f);
-			Forgat.addForgatas("Lu", origin, f, f, jobb, jobb, f, f);
-			Forgat.addForgatas("Lo", origin, f, f, jobb, jobb, jobb, f, f);
-			Forgat.addForgatas("li", origin, f, f, jobb_reteg, f, f);
-			Forgat.addForgatas("lu", origin, f, f, jobb_reteg, jobb_reteg, f, f);
-			Forgat.addForgatas("lo", origin, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f);
-	
-				// Alul
-			Forgat.addForgatas("Di", origin, d, d, d, jobb, d);
-			Forgat.addForgatas("Du", origin, d, d, d, jobb, jobb, d);
-			Forgat.addForgatas("Do", origin, d, d, d, jobb, jobb, jobb, d);
-			Forgat.addForgatas("di", origin, d, d, d, jobb_reteg, d);
-			Forgat.addForgatas("du", origin, d, d, d, jobb_reteg, jobb_reteg, d);
-			Forgat.addForgatas("do", origin, d, d, d, jobb_reteg, jobb_reteg, jobb_reteg, d);
+			addAllSimpleForgatas();
 		}
 		else if ( lotus )
 		{
@@ -221,6 +185,64 @@ public class Kocka4x4x4 extends Kocka
 //		int [] felul = Forgat.forgatasok( origin, d, t, d, d, d );
 //		int [] elol = Forgat.forgatasok( origin, f, f, f, t, f  );
 	}
+    /**
+     * Az összes alapforgatást felveszi
+     */
+    @Override
+    public void addAllSimpleForgatas()
+    {
+		Forgat.init();
+		int [] f = egesz_bal;	// fordítás
+		int [] d = jobbra_dont;	// döntés
+
+		// Tető
+		Forgat.addForgatas("Ti", origin, d, jobb, d, d, d);
+		Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
+		Forgat.addForgatas("To", origin, d, jobb, jobb, jobb, d, d, d);
+		Forgat.addForgatas("ti", origin, d, jobb_reteg, d, d, d);
+		Forgat.addForgatas("tu", origin, d, jobb_reteg, jobb_reteg, d, d, d);
+		Forgat.addForgatas("to", origin, d, jobb_reteg, jobb_reteg, jobb_reteg, d, d, d);
+
+			// Elöl
+		Forgat.addForgatas("Fi", origin, f, f, f, jobb, f);
+		Forgat.addForgatas("Fu", origin, f, f, f, jobb, jobb, f);
+		Forgat.addForgatas("Fo", origin, f, f, f, jobb, jobb, jobb, f);
+		Forgat.addForgatas("fi", origin, f, f, f, jobb_reteg, f);
+		Forgat.addForgatas("fu", origin, f, f, f, jobb_reteg, jobb_reteg, f);
+		Forgat.addForgatas("fo", origin, f, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f);
+	
+			// Jobb oldal
+		Forgat.addForgatas("Ri", origin, jobb);
+		Forgat.addForgatas("Ru", origin, jobb, jobb);
+		Forgat.addForgatas("Ro", origin, jobb, jobb, jobb );
+		Forgat.addForgatas("ri", origin, jobb_reteg);
+		Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
+		Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
+
+			// Hátul
+		Forgat.addForgatas("Bi", origin, f, jobb, f, f, f);
+		Forgat.addForgatas("Bu", origin, f, jobb, jobb, f, f, f);
+		Forgat.addForgatas("Bo", origin, f, jobb, jobb, jobb, f, f, f);
+		Forgat.addForgatas("bi", origin, f, jobb_reteg, f, f, f);
+		Forgat.addForgatas("bu", origin, f, jobb_reteg, jobb_reteg, f, f, f);
+		Forgat.addForgatas("bo", origin, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f, f);
+		
+			// Bal
+		Forgat.addForgatas("Li", origin, f, f, jobb, f, f);
+		Forgat.addForgatas("Lu", origin, f, f, jobb, jobb, f, f);
+		Forgat.addForgatas("Lo", origin, f, f, jobb, jobb, jobb, f, f);
+		Forgat.addForgatas("li", origin, f, f, jobb_reteg, f, f);
+		Forgat.addForgatas("lu", origin, f, f, jobb_reteg, jobb_reteg, f, f);
+		Forgat.addForgatas("lo", origin, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f, f);
+
+			// Alul
+		Forgat.addForgatas("Di", origin, d, d, d, jobb, d);
+		Forgat.addForgatas("Du", origin, d, d, d, jobb, jobb, d);
+		Forgat.addForgatas("Do", origin, d, d, d, jobb, jobb, jobb, d);
+		Forgat.addForgatas("di", origin, d, d, d, jobb_reteg, d);
+		Forgat.addForgatas("du", origin, d, d, d, jobb_reteg, jobb_reteg, d);
+		Forgat.addForgatas("do", origin, d, d, d, jobb_reteg, jobb_reteg, jobb_reteg, d);
+    }
     /*
      * Az első 16 elem a felső lap
      * a második 16, az első
@@ -287,7 +309,7 @@ public class Kocka4x4x4 extends Kocka
 			92, 88, 84, 80, 93, 89, 85, 81, 94, 90, 86, 82, 95, 91, 87, 83,		// alsó --> bal
 			44, 40, 36, 32, 45, 41, 37, 33, 46, 42, 38, 34, 47, 43, 39, 35		// jobb --> alul
 	};
-    private static byte [] pill_x = {
+    private static int [] pill_x = {
     		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // felső: fekete
 			2, 2, 2, 2, 5, 2, 5, 6, 3, 6, 6, 3, 4, 2, 3, 2, // első: piros
 			3, 3, 3, 3, 3, 4, 2, 5, 2, 3, 5, 6, 3, 4, 2, 3, // jobb kék
@@ -295,7 +317,7 @@ public class Kocka4x4x4 extends Kocka
 			5, 5, 5, 5, 3, 2, 3, 6, 5, 3, 4, 2, 6, 6, 3, 6, // bal: zöld
 			5, 6, 6, 6, 4, 3, 2, 6, 4, 5, 6, 5, 5, 5, 5, 6, // alsó: sárga
 	};
-    private static byte [] pill_centrums = {
+    private static int [] pill_centrums = {
 			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
 			0, 0, 0, 0, 0, 2, 6, 0, 0, 5, 6, 0, 0, 0, 0, 0, // első: piros
 			0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 6, 0, 0, 0, 0, 0, // jobb kék
@@ -306,15 +328,23 @@ public class Kocka4x4x4 extends Kocka
 
     
     
-//    private static byte [] pill = {
-//    		1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 7, 1,  1, 2, 2, 1, // felső: fekete
-//			2, 1, 1, 2,  2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2, // első: piros
-//			3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3, // jobb kék
-//			4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4, // hátsó narancs
-//			5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5, // bal: zöld
-//			6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6, // alsó: sárga
-//	};
-//    private static byte [] target = {
+    private static int [] teszt_pill = {
+    		3, 4, 2, 4,  1, 4, 3, 1,  5, 4, 7, 2,  2, 4, 5, 6, // felső: fekete
+    		1, 6, 4, 3,  1, 3, 1, 4,  1, 4, 2, 5,  1, 5, 6, 6, // első: piros
+    		2, 1, 4, 6,  3, 3, 3, 3,  1, 2, 6, 4,  5, 5, 5, 5, // jobb kék
+    		5, 6, 1, 6,  2, 6, 5, 2,  3, 6, 2, 1,  1, 6, 3, 4, // hátsó narancs
+			4, 5, 6, 3,  6, 5, 4, 3,  2, 5, 1, 3,  1, 5, 2, 3, // bal: zöld
+			4, 4, 3, 2,  3, 1, 6, 2,  6, 2, 5, 2,  5, 6, 4, 2, // alsó: sárga
+	};
+    private static int [] pill = {
+    		1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 7, 1,  1, 2, 2, 1, // felső: fekete
+			2, 1, 1, 2,  2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2, // első: piros
+			3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3, // jobb kék
+			4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4,  4, 4, 4, 4, // hátsó narancs
+			5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5, // bal: zöld
+			6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6, // alsó: sárga
+	};
+//    private static int [] target = {
 //    		1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1, // felső: fekete
 //			2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2, // első: piros
 //			3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3, // jobb kék
@@ -322,22 +352,22 @@ public class Kocka4x4x4 extends Kocka
 //			5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5, // bal: zöld
 //			6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6, // alsó: sárga
 //	};
-    private static byte [] pill = {
-			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 7, 0, 0, 0, 0, 0, // felső: fekete
-			0, 0, 0, 0, 0, 4, 6, 0, 0, 2, 6, 0, 0, 0, 0, 0, // első: piros
-			0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, // jobb kék
-			0, 0, 0, 0, 0, 4, 2, 0, 0, 4, 2, 0, 0, 0, 0, 0, // hátsó narancs
-			0, 0, 0, 0, 0, 5, 5, 0, 0, 5, 5, 0, 0, 0, 0, 0, // bal: zöld
-			0, 0, 0, 0, 0, 6, 4, 0, 0, 6, 2, 0, 0, 0, 0, 0, // alsó: sárga
-	};
-    private static byte [] target = {
-			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
-			0, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0, // első: piros
-			0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, // jobb kék
-			0, 0, 0, 0, 0, 4, 4, 0, 0, 4, 4, 0, 0, 0, 0, 0, // hátsó narancs
-			0, 0, 0, 0, 0, 5, 5, 0, 0, 5, 5, 0, 0, 0, 0, 0, // bal: zöld
-			0, 0, 0, 0, 0, 6, 6, 0, 0, 6, 6, 0, 0, 0, 0, 0, // alsó: sárga
-	};
+//    private static int [] pill = {
+//			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 7, 0, 0, 0, 0, 0, // felső: fekete
+//			0, 0, 0, 0, 0, 4, 6, 0, 0, 2, 6, 0, 0, 0, 0, 0, // első: piros
+//			0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, // jobb kék
+//			0, 0, 0, 0, 0, 4, 2, 0, 0, 4, 2, 0, 0, 0, 0, 0, // hátsó narancs
+//			0, 0, 0, 0, 0, 5, 5, 0, 0, 5, 5, 0, 0, 0, 0, 0, // bal: zöld
+//			0, 0, 0, 0, 0, 6, 4, 0, 0, 6, 2, 0, 0, 0, 0, 0, // alsó: sárga
+//	};
+//    private static int [] target = {
+//			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
+//			0, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0, // első: piros
+//			0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, // jobb kék
+//			0, 0, 0, 0, 0, 4, 4, 0, 0, 4, 4, 0, 0, 0, 0, 0, // hátsó narancs
+//			0, 0, 0, 0, 0, 5, 5, 0, 0, 5, 5, 0, 0, 0, 0, 0, // bal: zöld
+//			0, 0, 0, 0, 0, 6, 6, 0, 0, 6, 6, 0, 0, 0, 0, 0, // alsó: sárga
+//	};
     
     
     
@@ -346,7 +376,7 @@ public class Kocka4x4x4 extends Kocka
     
     
     
-    private static byte [] teteje = {
+    private static int [] teteje = {
     		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // felső: fekete
     		2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // első: piros
 			3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // jobb kék
@@ -354,7 +384,7 @@ public class Kocka4x4x4 extends Kocka
 			5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // bal: zöld
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // alsó: sárga
 	};
-    private static byte [] centrums = {
+    private static int [] centrums = {
 			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
 			0, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0, // első: piros
 			0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 3, 0, 0, 0, 0, 0, // jobb kék
@@ -362,7 +392,7 @@ public class Kocka4x4x4 extends Kocka
 			0, 0, 0, 0, 0, 5, 5, 0, 0, 5, 5, 0, 0, 0, 0, 0, // bal: zöld
 			0, 0, 0, 0, 0, 6, 6, 0, 0, 6, 6, 0, 0, 0, 0, 0, // alsó: sárga
 	};
-    private static byte [] sarok = {
+    private static int [] sarok = {
     		1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, // felső: fekete
     		2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, // első: piros
 			3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, // jobb kék
@@ -370,7 +400,7 @@ public class Kocka4x4x4 extends Kocka
 			5, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 5, // bal: zöld
 			6, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 6, // alsó: sárga
 	};
-    private static byte [] kozepe_sarok = {
+    private static int [] kozepe_sarok = {
     		1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, // felső: fekete
     		2, 0, 0, 2, 0, 2, 2, 0, 0, 2, 1, 0, 2, 0, 0, 2, // első: piros
 			3, 0, 0, 3, 0, 3, 3, 0, 0, 3, 3, 0, 3, 0, 0, 3, // jobb kék
@@ -378,7 +408,7 @@ public class Kocka4x4x4 extends Kocka
 			5, 0, 0, 5, 0, 5, 5, 0, 0, 5, 5, 0, 5, 0, 0, 5, // bal: zöld
 			6, 0, 0, 6, 0, 6, 6, 0, 0, 6, 6, 0, 6, 0, 0, 6, // alsó: sárga
 	};
-    private static byte [] teteje_sarok = {
+    private static int [] teteje_sarok = {
     		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // felső: fekete
     		2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, // első: piros
 			3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, // jobb kék
@@ -386,7 +416,7 @@ public class Kocka4x4x4 extends Kocka
 			5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 5, // bal: zöld
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // alsó: sárga
 	};
-    private static byte [] teteje_kozepe = {
+    private static int [] teteje_kozepe = {
     		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // felső: fekete
     		2, 2, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 0, // első: piros
 			3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // jobb kék
@@ -394,7 +424,7 @@ public class Kocka4x4x4 extends Kocka
 			5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // bal: zöld
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // alsó: sárga
 	};
-    private static byte [] ready = {
+    private static int [] ready = {
     		1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1,  1, 1, 1, 1, // felső: fekete
 			2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2,  2, 2, 2, 2, // első: piros
 			3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3,  3, 3, 3, 3, // jobb kék
@@ -402,11 +432,11 @@ public class Kocka4x4x4 extends Kocka
 			5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5,  5, 5, 5, 5, // bal: zöld
 			6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6,  6, 6, 6, 6, // alsó: sárga
 	};
-	private static byte [][] kockak = 
+	private static int [][] kockak = 
     {
         ready, centrums, pill
     };
-	private static byte [][] targets = 
+	private static int [][] targets = 
     {
         ready, centrums
     };
@@ -426,16 +456,16 @@ public class Kocka4x4x4 extends Kocka
      * Az a normalizált állapotban, a teteőn, a (3,3) pozíción található
      */
 	@Override
-	protected byte [] getNorma(byte [] act )
+	protected int [] getNorma(int [] act )
 	{
 		int place = searchRefElement(act);
 		int side = place/cntCol;	// melyik oldal
 			// A felső oldalra forgatjuk
-		byte [] top = Forgat.forgat(act, sides[side]);
+		int [] top = Forgat.forgat(act, sides[side]);
 		
 			// Megnézzük hányat kell fordítani, hogy a helyére kerüljön
 		int posNum = getPosNum(top);
-		byte [] ret = top;
+		int [] ret = top;
 		for ( int i=1; i<=posNum; i++ )
 			ret = Forgat.forgat(ret, egesz_bal);
 		return ret;
@@ -445,7 +475,7 @@ public class Kocka4x4x4 extends Kocka
 	 * @param t
 	 * @return
 	 */
-	private int searchRefElement(byte [] t)
+	private int searchRefElement(int [] t)
 	{
 		for ( int i=0; i<t.length; i++ )
 		{
@@ -459,7 +489,7 @@ public class Kocka4x4x4 extends Kocka
 	 * @param t
 	 * @return
 	 */
-	private int getPosNum(byte [] t)
+	private int getPosNum(int [] t)
 	{
 		int i;
 		for ( i=0; i<t.length; i++ )
@@ -487,14 +517,14 @@ public class Kocka4x4x4 extends Kocka
 	@Override
 	public boolean isReady()
     {
-    	byte [] target = getTarget();
+    	int [] target = getTarget();
         for ( int i=0; i<actual.length; i++ )
         {
             if ( target[i] == 0 )    // itt mindegy mi van
             {
                 continue;
             }
-            byte act = actual[i];
+            int act = actual[i];
             if ( act == _REF_ELEMENT)
             	act = 1;
             if ( act != target[i] )    // eltérés
@@ -506,7 +536,7 @@ public class Kocka4x4x4 extends Kocka
     }
 	
 	@Override
-    public String toString( byte [] tabla )
+    public String toString( int [] tabla )
     {
         String s="\n";
         String [] colors = getColors();
@@ -521,28 +551,222 @@ public class Kocka4x4x4 extends Kocka
                     s += color +"";
                 }
                 s+="   ";
-            }
+            }    
             s+="\n";
         }
         return s;
     }
 	
+    /**
+     * Visszaadja azt a célt, amit úgy képezünk, hogy "stabil" megadott elemei nem változhatnak, "act" bizonyos elemei klónozódnak,
+     * a többi elem mindegy 
+     */
+	private static int [] getNewTarget( int [] stabil, int [] act )
+	{
+		int [] ret = new int [act.length];
+		for ( int i=0; i<ret.length; i++ )
+		{
+			ret[i] = stabil[i];
+		}
+		ret[20] = act[40];
+		ret[71] = act[27];
+		//ret[]
+		return ret;
+	}
+	
     public static void main(String[] args)
     {
         System.out.println("Indul...");
-        Kocka4x4x4 game = new Kocka4x4x4( pill );
-        game.init();
-        System.out.println("X0" + game);
-
-        Vector<Gameable>kockak = game.nextStages();
-        for ( Gameable g:kockak)
-            System.out.println(g);
+        //solveOld();
+        solve();
+        System.out.println("Vége");
+        System.exit(0);
+    }
+    public static void solve()
+    {
+        int [] act = teszt_pill;
+        //act = oneStep( act, ready, "Lo", "Lo-lo", "Ro", "Bo", "Bo-bo", "Fo" );
         
-    	GameController gc = new GameController(game); 
+        OneStep4x4x4 step;
+        
+        OneStep.init();
+        step = new OneStep4x4x4( "top_centrums", top_centrums, "R", "t", "d", "l", "b" );
+        step = new OneStep4x4x4( "top_bottom_centrums", top_bottom_centrums, "D", "R", "t", "d", "l", "b" );
+        step = new OneStep4x4x4( "black_red_edge", black_red_edge, "F", "R", "B", "L", "t", "d");
+        step = new OneStep4x4x4( "black_blue_edge", black_blue_edge, "F", "R", "B", "L", "t", "d");
+        step = new OneStep4x4x4( "black_green_edge", black_green_edge, "F", "R", "B", "L", "t", "d");
+        step = new OneStep4x4x4( "red_centrum", red_centrum, "B", "t", "d");
+        step = new OneStep4x4x4( "red_blue_centrum", red_blue_centrum, "B", "t", "d");
+        step = new OneStep4x4x4( "all_centrum", all_centrum, "B", "t", "d");
+        step = new OneStep4x4x4( "black_orange_edge", black_orange_edge, "Bo", "Ti", "fi", "Ro", "Ri", "fo", "to-Bi-bi");
+
+        System.out.println("--- print ----------------------------------------");
+        OneStep.print();
+        System.out.println("--- solve ----------------------------------------");
+        OneStep.solve(teszt_pill);
+        System.out.println("--- print2 ----------------------------------------");
+        OneStep.print();
+        System.out.println("--- steps ----------------------------------------");
+        OneStep.printResult();
+    }
+    public static void solveOld()
+    {
+        int [] act = teszt_pill;
+        //act = oneStep( act, ready, "Lo", "Lo-lo", "Ro", "Bo", "Bo-bo", "Fo" );
+        
+        Kocka4x4x4 master = new Kocka4x4x4( act );
+        
+        System.out.println("top_centrums");
+        String [] res = oneStep( act, top_centrums, "Ro", "Ri", "Ru", "to", "ti", "tu", "do", "di", "du", "ro", "ri", "ru", "lo", "li", "lu", "fo", "fi", "fu", "bo", "bi", "bu" );
+        act = Forgat.forgatasok(act, res);
+        System.out.println("top_centrums:\n" + master.toString(act));
+        
+        act = master.getNorma(act);
+        master = new Kocka4x4x4( act );
+        System.out.println("Top centrum, norma:\n" + master.toString(act));
+        
+        System.out.println("top_bottom_centrums");
+        res = oneStep( act, top_bottom_centrums, "Do", "Di", "Du", "Ro", "Ri", "Ru", "to", "ti", "tu", "do", "di", "du", "ro", "ri", "ru", "lo", "li", "lu", "fo", "fi", "fu", "bo", "bi", "bu" );
+        act = Forgat.forgatasok(act, res);
+        System.out.println("top_bottom_centrums:\n" + master.toString(act));
+        
+        System.out.println("black_red_edge");
+        res = oneStep( act, black_red_edge, "Fo", "Fi", "Fu", "To", "Ti", "Tu", "Do", "Di", "Du", "to", "ti", "tu", "do", "di", "du");
+        act = Forgat.forgatasok(act, res);
+        System.out.println("black_red_edge:\n" + master.toString(act));
+        
+        System.out.println("black_blu_edge");
+        res = oneStep( act, black_blue_edge, "Ro", "Ri", "Ru", "To", "Ti", "Tu", "Do", "Di", "Du", "to", "ti", "tu", "do", "di", "du");
+        act = Forgat.forgatasok(act, res);
+        System.out.println("black_blu_edge:\n" + master.toString(act));
+        
+        System.out.println("black_green_edge");
+        res = oneStep( act, black_green_edge, "Lo", "Li", "Lu", "To", "Ti", "Tu", "Do", "Di", "Du", "to", "ti", "tu", "do", "di", "du");
+        act = Forgat.forgatasok(act, res);
+        System.out.println("black_green_edge:\n" + master.toString(act));
+        
+        System.out.println("red_centrum");
+        res = oneStep( act, red_centrum, "Bo", "Bi", "Bu", "to", "ti", "tu", "do", "di", "du");
+        act = Forgat.forgatasok(act, res);
+        System.out.println("red_centrum:\n" + master.toString(act));
+        
+        System.out.println("red_blue_centrum");
+        res = oneStep( act, red_blue_centrum, "Bo", "Bi", "Bu", "to", "ti", "tu", "do", "di", "du");
+        act = Forgat.forgatasok(act, res);
+        System.out.println("red_blue_centrum:\n" + master.toString(act));
+        
+        System.out.println("all_centrum");
+        res = oneStep( act, all_centrum, "Bo", "Bi", "Bu", "to", "ti", "tu", "do", "di", "du");
+        act = Forgat.forgatasok(act, res);
+        System.out.println("all_centrum:\n" + master.toString(act));
+        
+        System.out.println("black_orange_edge");
+        res = oneStep( act, black_orange_edge, "Bo", "Bi", "Bu", "Do", "Di", "Du", "Ro", "Ri", "Ru", "to", "ti", "tu", "do", "di", "du");
+        act = Forgat.forgatasok(act, res);
+        System.out.println("black_orange_edge:\n" + master.toString(act));
+        
+		Forgat.addForgatas("U2", origin, jobbra_dont, jobbra_dont, jobbra_dont, jobb_reteg, jobbra_dont, jobbra_dont, jobbra_dont);
+        act = Forgat.forgatasok(act, "U2");
+        master = new Kocka4x4x4( act );
+        System.out.println("U2:\n" + master.toString(act));
+        int [] stabil = Forgat.forgatasok(black_orange_edge, "U2");
+        int [] target = getNewTarget( stabil, act );
+        System.out.println("first_edge");
+        System.out.println("target: " + master.toString(target));
+        res = oneStep( act, target, "Fo", "Fi", "Lo", "Li", "To", "Ti", "Tu", "Bo", "Bi");
+        act = Forgat.forgatasok(act, res);
+        System.out.println("first_edge:\n" + master.toString(act));
+        //act = oneStep( act, top_centrums, "Ro", "Ri", "Ru", "to", "ti", "tu", "do", "di", "du", "ro", "ri", "ru", "lo", "li", "lu", "fo", "fi", "fu", "bo", "bi", "bu" );
+    }
+    public static String [] oneStep(int [] act, int [] target, String... commands)
+    {
+        System.out.println("One step...");
+        Kocka4x4x4 game = new Kocka4x4x4( act );
+        game.setTarget(target);
+        game.init( commands );
+
+//        System.out.println("X0" + game);
+//        Vector<Gameable>kockak = game.nextStages();
+//        for ( Gameable g:kockak)
+//            System.out.println(g);
+//
+        GameController gc = new GameController(game); 
         System.out.println();
         System.out.println(game);
         gc.solve();
-        System.exit(0);
+        return gc.getResult();
     }
+    private static int [] top_centrums = {
+			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // első: piros
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // hátsó narancs
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] top_bottom_centrums = {
+			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // első: piros
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // hátsó narancs
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0, 0, 6, 6, 0, 0, 6, 6, 0, 0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] black_red_edge = {
+			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // első: piros
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // hátsó narancs
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0, 0, 6, 6, 0, 0, 6, 6, 0, 0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] black_blue_edge = {
+			0, 0, 0, 0,  0, 1, 1, 1,  0, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // első: piros
+			0, 3, 3, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // hátsó narancs
+			0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] black_green_edge = {
+			0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // első: piros
+			0, 3, 3, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // hátsó narancs
+			0, 5, 5, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] red_centrum = {
+			0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0,  0, 2, 2, 0,  0, 2, 2, 0,  0, 0, 0, 0, // első: piros
+			0, 3, 3, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // hátsó narancs
+			0, 5, 5, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] red_blue_centrum = {
+			0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0,  0, 2, 2, 0,  0, 2, 2, 0,  0, 0, 0, 0, // első: piros
+			0, 3, 3, 0,  0, 3, 3, 0,  0, 3, 3, 0,  0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // hátsó narancs
+			0, 5, 5, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] all_centrum = {
+			0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0,  0, 2, 2, 0,  0, 2, 2, 0,  0, 0, 0, 0, // első: piros
+			0, 3, 3, 0,  0, 3, 3, 0,  0, 3, 3, 0,  0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0,  0, 4, 4, 0,  0, 4, 4, 0,  0, 0, 0, 0, // hátsó narancs
+			0, 5, 5, 0,  0, 5, 5, 0,  0, 5, 5, 0,  0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] black_orange_edge = {
+			0, 1, 1, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0,  0, 2, 2, 0,  0, 2, 2, 0,  0, 0, 0, 0, // első: piros
+			0, 3, 3, 0,  0, 3, 3, 0,  0, 3, 3, 0,  0, 0, 0, 0, // jobb kék
+			0, 4, 4, 0,  0, 4, 4, 0,  0, 4, 4, 0,  0, 0, 0, 0, // hátsó narancs
+			0, 5, 5, 0,  0, 5, 5, 0,  0, 5, 5, 0,  0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
+	};
 	
 }

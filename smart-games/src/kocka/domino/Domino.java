@@ -6,11 +6,11 @@ import kocka.Kocka;
 //Bűvös dominó kirakása
 public class Domino extends Kocka //implements Gameable
 {
-    public Domino( byte [] stage, int prevStep )
+    public Domino( int [] stage, int prevStep )
     {
     	super( stage, prevStep );
     }
-    public Domino( byte [] stage )
+    public Domino( int [] stage )
     {
     	super( stage, -1 );
     	idSzamlalo=1;
@@ -19,7 +19,7 @@ public class Domino extends Kocka //implements Gameable
     {
     	this( kockak[melyik] );
     }
-    public Kocka newForgat( byte [] stage, int prevStep )
+    public Kocka newForgat( int [] stage, int prevStep )
 	{
     	return new Domino( stage, prevStep );
 	}
@@ -30,7 +30,7 @@ public class Domino extends Kocka //implements Gameable
      * 
      * A kirakott kocka a "ready" tömbben látható
      */
-	private static byte [] ready = {
+	private static int [] ready = {
 			11, 12, 13,
 			14, 15, 16,
 			17, 18, 19,
@@ -152,7 +152,7 @@ public class Domino extends Kocka //implements Gameable
     	switch (target)
         {
     	case 0: 
-        	return equals( ready, actual );
+        	return equals( ready, getActual() );
     	case 1: 
         	for ( int i=0; i<actual.length; i++ ) 
         	{
@@ -224,7 +224,7 @@ public class Domino extends Kocka //implements Gameable
 	    	default : return "nincs ilyen lépés";
         }
     }
-	private static byte [] kiindulo = {
+	private static int [] kiindulo = {
 			11, 24, 13,
 			12, 15, 18,
 			21, 14, 19,
@@ -234,7 +234,7 @@ public class Domino extends Kocka //implements Gameable
 			17, 22, 29
 	};
 	
-	private static byte [] fejtheto = { 
+	private static int [] fejtheto = { 
 			11, 12, 23,
 			26, 15, 14,
 			13, 18, 21,
@@ -244,7 +244,7 @@ public class Domino extends Kocka //implements Gameable
 			17, 22, 29
 	};
 
-	private static byte [] csere = {
+	private static int [] csere = {
 			11, 12, 13,
 			16, 15, 18,
 			17, 14, 19,
@@ -254,7 +254,7 @@ public class Domino extends Kocka //implements Gameable
 			27, 28, 29
 	};
 
-	private static byte [][] kockak = 
+	private static int [][] kockak = 
     {
         ready, fejtheto, kiindulo, csere
     };
@@ -263,11 +263,11 @@ public class Domino extends Kocka //implements Gameable
     {
     	String s = "";
     	s += getId() + ":: " + getPrevStep() + ":: ";
-    	s += toString(actual);
+    	s += toString(getActual());
     	return s;
     }
 	@Override
-    public String toString( byte [] tabla )
+    public String toString( int [] tabla )
     {
         String s="";
         String [] colors = getColors();

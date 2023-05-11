@@ -7,11 +7,11 @@ import kocka.Kocka;
 public class Kereszt extends Kocka
 {
 	int cntCol = 8;
-    private Kereszt( byte [] stage, int prevStep )
+    private Kereszt( int [] stage, int prevStep )
     {
     	super( stage, prevStep );
     }
-    public Kereszt( byte [] stage )
+    public Kereszt( int [] stage )
     {
     	super( stage, -1 );
     	idSzamlalo=1;
@@ -20,7 +20,7 @@ public class Kereszt extends Kocka
     {
     	this( kockak[melyik] );
     }
-    public Kocka newForgat( byte [] stage, int prevStep )
+    public Kocka newForgat( int [] stage, int prevStep )
 	{
     	return new Kereszt( stage, prevStep );
 	}
@@ -137,12 +137,12 @@ public class Kereszt extends Kocka
     {
     	String s = "";
     	s += getId() + ":: " + getPrevStep() + ":: ";
-    	s += toString(actual);
-        s += "\npill.: " + getSource(actual);
+    	s += toString(getActual());
+        s += "\npill.: " + getSource(getActual());
     	return s;
     }
 	@Override
-    public String toString( byte [] tabla )
+    public String toString( int [] tabla )
     {
         String s="";
         for ( int i=0; i<tabla.length; i++ )
@@ -160,7 +160,7 @@ public class Kereszt extends Kocka
         }
         return s;
     }
-    private String getSource( byte [] tabla )
+    private String getSource( int [] tabla )
     {
         String s="";
         for ( int i=0; i<tabla.length; i++ )
@@ -175,7 +175,7 @@ public class Kereszt extends Kocka
         }
         return s;
     }
-    private static byte [] ready = {
+    private static int [] ready = {
 			1, 1, 1, 1, 1, 1, 1, 1,	// felső: sárga
 			2, 2, 2, 2, 2, 2, 2, 2,	// első: kék
 			3, 3, 3, 3, 3, 3, 3, 3,	// jobb: piros
@@ -183,7 +183,7 @@ public class Kereszt extends Kocka
 			5, 5, 5, 5, 5, 5, 5, 5,	// bal: fehér
 			6, 6, 6, 6, 6, 6, 6, 6,	// alsó: narancs
 	};
-	private static byte [] ready_full = {
+	private static int [] ready_full = {
 			1, 1, 1, 1, 11, 12, 13, 14,	// felső: sárga
 			2, 2, 2, 2, 21, 22, 23, 24,	// első: kék
 			3, 3, 3, 3, 31, 32, 33, 34,	// jobb: piros
@@ -191,7 +191,7 @@ public class Kereszt extends Kocka
 			5, 5, 5, 5, 51, 52, 53, 54,	// bal: fehér
 			6, 6, 6, 6, 61, 62, 63, 64,	// alsó: narancs
 	};
-	private static byte [] x = {
+	private static int [] x = {
 			1, 1, 2, 6, 1, 1, 1, 1,	// felső
 			3, 2, 4, 1, 2, 2, 2, 2,	// első
 			5, 5, 4, 6, 3, 3, 3, 3,	// jobb
@@ -199,7 +199,7 @@ public class Kereszt extends Kocka
 			3, 6, 6, 5, 5, 5, 5, 5,	// bal
 			1, 3, 4, 4, 6, 6, 6, 6,	// alsó
 	};
-	private static byte [] csak_kozep = {
+	private static int [] csak_kozep = {
     		0, 0, 0, 0, 1, 1, 1, 1,	// felső: sárga
 			0, 0, 0, 0, 5, 5, 5, 5,	// első: kék
 			0, 0, 0, 0, 4, 4, 4, 4,	// jobb: piros
@@ -207,7 +207,7 @@ public class Kereszt extends Kocka
 			0, 0, 0, 0, 3, 3, 3, 3,	// bal: fehér
 			0, 0, 0, 0, 2, 2, 2, 2,	// alsó: narancs
 	};
-	private static byte [] y = {
+	private static int [] y = {
 			1, 1, 1, 1, 11, 12, 13, 14,	// felső
 			2, 2, 2, 2, 21, 22, 23, 24,	// első
 			3, 3, 3, 3, 31, 32, 33, 34,	// jobb
@@ -215,17 +215,17 @@ public class Kereszt extends Kocka
 			5, 5, 5, 5, 53, 54, 51, 52,	// bal
 			6, 6, 6, 6, 63, 64, 61, 62,	// alsó
 	};
-	//private static byte [] pill = {1,1,1,1,1,1,1,1,     2,6,6,4,2,2,2,2,     2,5,3,1,3,3,3,3,     4,4,3,6,4,4,4,4,     5,5,2,4,5,5,5,5,     3,1,3,2,6,6,6,6,    };
-	private static byte [] pill = {6,4,1,1,1,1,1,1,     2,2,6,1,2,2,2,2,     3,6,4,5,3,3,3,3,     5,2,4,3,4,4,4,4,     5,5,6,4,5,5,5,5,     3,3,2,1,6,6,6,6,      };
+	//private static int [] pill = {1,1,1,1,1,1,1,1,     2,6,6,4,2,2,2,2,     2,5,3,1,3,3,3,3,     4,4,3,6,4,4,4,4,     5,5,2,4,5,5,5,5,     3,1,3,2,6,6,6,6,    };
+	private static int [] pill = {6,4,1,1,1,1,1,1,     2,2,6,1,2,2,2,2,     3,6,4,5,3,3,3,3,     5,2,4,3,4,4,4,4,     5,5,6,4,5,5,5,5,     3,3,2,1,6,6,6,6,      };
 
-	private static byte [][] kockak = 
+	private static int [][] kockak = 
 	    {
 	        ready_full, pill, x, y
 	    };
 
 	
 
-    private static byte [] kozepek = {
+    private static int [] kozepek = {
     		0, 0, 0, 0, 0, 0, 0, 1,	// felső: sárga
 			0, 0, 0, 0, 0, 0, 0, 2,	// első: kék
 			0, 0, 0, 0, 0, 0, 0, 3,	// jobb: piros
@@ -233,7 +233,7 @@ public class Kereszt extends Kocka
 			0, 0, 0, 0, 0, 0, 0, 5,	// bal: fehér
 			0, 0, 0, 0, 0, 0, 0, 6,	// alsó: narancs
 	};
-    private static byte [] teteje = {
+    private static int [] teteje = {
 			1, 1, 1, 1, 1, 1, 1, 1,	// felső: sárga
 			0, 0, 0, 0, 2, 2, 2, 2,	// első: kék
 			0, 0, 0, 0, 3, 3, 3, 3,	// jobb: piros
@@ -241,7 +241,7 @@ public class Kereszt extends Kocka
 			0, 0, 0, 0, 5, 5, 5, 5,	// bal: fehér
 			0, 0, 0, 0, 6, 6, 6, 6,	// alsó: narancs
 	};
-    private static byte [] elso_ketto = {
+    private static int [] elso_ketto = {
 			0, 0, 1, 1, 1, 1, 1, 1,	// felső: sárga
 			2, 2, 0, 0, 2, 2, 2, 2,	// első: kék
 			0, 0, 0, 0, 3, 3, 3, 3,	// jobb: piros
@@ -249,7 +249,7 @@ public class Kereszt extends Kocka
 			0, 0, 0, 0, 5, 5, 5, 5,	// bal: fehér
 			0, 0, 0, 0, 6, 6, 6, 6,	// alsó: narancs
 	};
-    private static byte [] teteje_felso = {
+    private static int [] teteje_felso = {
 			1, 1, 1, 1, 1, 1, 1, 1,	// felső: sárga
 			2, 2, 0, 0, 2, 2, 2, 2,	// első: kék
 			3, 3, 0, 0, 3, 3, 3, 3,	// jobb: piros
@@ -257,7 +257,7 @@ public class Kereszt extends Kocka
 			5, 5, 0, 0, 5, 5, 5, 5,	// bal: fehér
 			0, 0, 0, 0, 6, 6, 6, 6,	// alsó: narancs
 	};
-    private static byte [] cel = {
+    private static int [] cel = {
 			1, 1, 1, 1, 1, 1, 1, 1,	// felső: sárga
 			2, 2, 0, 0, 2, 2, 2, 2,	// első: kék
 			0, 0, 0, 0, 3, 3, 3, 3,	// jobb: piros
@@ -265,7 +265,7 @@ public class Kereszt extends Kocka
 			0, 0, 0, 0, 5, 5, 5, 5,	// bal: fehér
 			0, 0, 0, 0, 6, 6, 6, 6,	// alsó: narancs
 	};
-	private static byte [][] targets = 
+	private static int [][] targets = 
 	    {
 	        cel, kozepek, teteje, elso_ketto, teteje_felso
 	    };
@@ -275,11 +275,11 @@ public class Kereszt extends Kocka
     	switch (target)
         {
     	case -1: 
-        	return equals( ready_full, actual );
+        	return equals( ready_full, getActual() );
     	case -2: 
-        	return equals( ready, actual );
+        	return equals( ready, getActual() );
         default :
-        	byte [] act_target = targets[target];
+        	int [] act_target = targets[target];
             for ( int i=0; i<actual.length; i++ )
             {
                 if ( act_target[i] == 0 )    // itt mindegy mi van
