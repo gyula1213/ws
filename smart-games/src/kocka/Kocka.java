@@ -26,6 +26,7 @@ public class Kocka implements Gameable, Cubeable
     protected byte [] actual;
     private static int [] saveStarted;
     protected static int [] target;
+    protected static Steps steps;
     
     protected Kocka( int [] stage, int prevStep )
     {
@@ -265,6 +266,12 @@ public class Kocka implements Gameable, Cubeable
         }
         return s;
     }
+    public static OneStep newOneStep( String name, int [] target, String... commands )
+    {
+    	OneStep oneStep = newOneStep( name, target, commands);
+    	return oneStep;
+    }
+    
     public  void initForgatasok() {
     }
     public  void addAllSimpleForgatas() {
@@ -332,10 +339,35 @@ public class Kocka implements Gameable, Cubeable
 	public void setTarget(int[] t) {
 		target = t;
 		// TODO Auto-generated method stub
-		
 	}
 	@Override
     public void setActTable(int n) {
-    	actual = MemoryTest.zip(OneStep.getStage(n));
+    	actual = MemoryTest.zip(steps.getStage(n));
     }
+	
+	
+	@Override
+	public String getName(int n) {
+		return steps.getName(n);
+	}
+	@Override
+	public int[] getTarget(int n) {
+		return steps.getTarget(n);
+	}
+	@Override
+	public String[] getCommands(int n) {
+		return steps.getCommands(n);
+	}
+	@Override
+	public int[] getOrig(int n) {
+		return steps.getOrig(n);
+	}
+	@Override
+	public int[] getEnd(int n) {
+		return steps.getEnd(n);
+	}
+	@Override
+	public String[] getResult(int n) {
+		return steps.getResult(n);
+	}
 }

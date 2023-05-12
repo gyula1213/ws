@@ -14,7 +14,6 @@ INDEX VERSION 1.131+C:\U\Baca\ws\.metadata\.plugins\org.eclipse.jdt.core
 674573568.index
 895354549.index
 542153213.index
-1040471846.index
 4259073463.index
 4135958314.index
 1946725198.index

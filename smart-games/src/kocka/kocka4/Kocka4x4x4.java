@@ -8,6 +8,7 @@ import base.GameController;
 import base.Gameable;
 import kocka.Kocka;
 import kocka.OneStep;
+import kocka.Steps;
 import kocka.forgat.Forgat;
 
 //
@@ -537,7 +538,7 @@ public class Kocka4x4x4 extends Kocka
 	@Override
 	public void initGame() {
 		createSteps();
-		OneStep.initSolve(teszt_pill);
+		steps.initSolve(teszt_pill);
 	}
 	
 	@Override
@@ -560,6 +561,11 @@ public class Kocka4x4x4 extends Kocka
             s+="\n";
         }
         return s;
+    }
+    public static OneStep newOneStep( String name, int [] target, String... commands )
+    {
+    	OneStep4x4x4 oneStep = new OneStep4x4x4( name, target, commands);
+    	return oneStep;
     }
 	
     /**
@@ -590,35 +596,38 @@ public class Kocka4x4x4 extends Kocka
     }
     public static void createSteps()
     {
-        OneStep4x4x4 step;
-        
-        OneStep.init();
-        step = new OneStep4x4x4( "top_centrums", top_centrums, "R", "t", "d", "l", "b" );
-        step = new OneStep4x4x4( "top_bottom_centrums", top_bottom_centrums, "D", "R", "t", "d", "l", "b" );
-        step = new OneStep4x4x4( "black_red_edge", black_red_edge, "F", "R", "B", "L", "t", "d");
-        step = new OneStep4x4x4( "black_blue_edge", black_blue_edge, "F", "R", "B", "L", "t", "d");
-        step = new OneStep4x4x4( "black_green_edge", black_green_edge, "F", "R", "B", "L", "t", "d");
-        step = new OneStep4x4x4( "red_centrum", red_centrum, "B", "t", "d");
-        step = new OneStep4x4x4( "red_blue_centrum", red_blue_centrum, "B", "t", "d");
-        step = new OneStep4x4x4( "all_centrum", all_centrum, "B", "t", "d");
-        //step = new OneStep4x4x4( "black_orange_edge_1", black_orange_edge_1, "B", "R", "D");
-        //step = new OneStep4x4x4( "black_orange_edge", black_orange_edge, "do", "di", "Ru", "Do", "B");	// Ez jó, ebben az esetben (teszt_pill)
-        step = new OneStep4x4x4( "black_orange_edge", black_orange_edge, "do", "di", "to", "ti", "R", "B", "D");
+        steps = new Steps();
+        addOneStep( "top_centrums", top_centrums, "R", "t", "d", "l", "b" );
+        addOneStep( "top_bottom_centrums", top_bottom_centrums, "D", "R", "t", "d", "l", "b" );
+        addOneStep( "black_red_edge", black_red_edge, "F", "R", "B", "L", "t", "d");
+        addOneStep( "black_blue_edge", black_blue_edge, "F", "R", "B", "L", "t", "d");
+        addOneStep( "black_green_edge", black_green_edge, "F", "R", "B", "L", "t", "d");
+        addOneStep( "red_centrum", red_centrum, "B", "t", "d");
+        addOneStep( "red_blue_centrum", red_blue_centrum, "B", "t", "d");
+        addOneStep( "all_centrum", all_centrum, "B", "t", "d");
+        //addOneStep( "black_orange_edge_1", black_orange_edge_1, "B", "R", "D");
+        //addOneStep( "black_orange_edge", black_orange_edge, "do", "di", "Ru", "Do", "B");	// Ez jó, ebben az esetben (teszt_pill)
+        addOneStep( "black_orange_edge", black_orange_edge, "do", "di", "to", "ti", "R", "B", "D");
+    }
+    public static void addOneStep( String name, int [] target, String... commands )
+    {
+    	OneStep oneStep = newOneStep( name, target, commands);
+    	steps.addStep(oneStep);
     }
     public static void solveTeszt()
     {
         createSteps();
         System.out.println("--- print ----------------------------------------");
-        OneStep.print();
-        OneStep.initSolve(teszt_pill);
+        steps.print();
+        steps.initSolve(teszt_pill);
 
-        OneStep.solve(1);
+        steps.solve(1);
         System.out.println("--- solve1 ----------------------------------------");
-        OneStep.print();
+        steps.print();
 
-        OneStep.solve(4);
+        steps.solve(4);
         System.out.println("--- solve4 ----------------------------------------");
-        OneStep.print();
+        steps.print();
     }
     public static void solve()
     {
@@ -627,13 +636,13 @@ public class Kocka4x4x4 extends Kocka
         
         createSteps();
         System.out.println("--- print ----------------------------------------");
-        OneStep.print();
+        steps.print();
         System.out.println("--- solve ----------------------------------------");
-        OneStep.allSolve(teszt_pill);
+        steps.allSolve(teszt_pill);
         System.out.println("--- print2 ----------------------------------------");
-        OneStep.print();
+        steps.print();
         System.out.println("--- steps ----------------------------------------");
-        OneStep.printResult();
+        steps.printResult();
     }
     public static void solveOld()
     {

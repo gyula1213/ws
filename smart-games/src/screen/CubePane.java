@@ -183,7 +183,7 @@ public class CubePane extends BorderPane {
 	private void mousePressed(MouseEvent ev) {
 		if (isReady) {
 			resultText.setFill(Color.BROWN);
-			resultText.setText("You are ready in " + cube.getCommands(tablaIndex) + " steps. Time: " + clock);
+			resultText.setText("You are ready in " + cube.getCommands(tableIndex) + " steps. Time: " + clock);
 			return;
 		}
 		System.out.println("widthField: (" + widthField + ")");
