@@ -33,6 +33,8 @@ public class CubePane extends BorderPane {
 	private int sec = 0;
 	private String clock;
 	private boolean isReady;
+
+	private int tableIndex = 0;		// A megoldás során hányadik lépésnél járunk (0) a kiinduló állapot
 	/**
 	 * A jatek tablaja
 	 */
@@ -163,6 +165,7 @@ public class CubePane extends BorderPane {
 		posX[5] = size * this.widthField;
 		posY[5] = 2 * size * this.widthField;
 		gc.clearRect(0, 0, width, height);
+		cube.setActTable(tableIndex);
 		paintTable(gc, cube.getActTable());
 	}
 	
@@ -170,10 +173,17 @@ public class CubePane extends BorderPane {
 		cube.forgat(name);
 	}
 
+	public void nextStage() {
+		tableIndex++;
+	}
+	public void prevStage() {
+		tableIndex--;
+	}
+
 	private void mousePressed(MouseEvent ev) {
 		if (isReady) {
 			resultText.setFill(Color.BROWN);
-			resultText.setText("You are ready in " + cube.getCnt() + " steps. Time: " + clock);
+			resultText.setText("You are ready in " + cube.getCommands(tablaIndex) + " steps. Time: " + clock);
 			return;
 		}
 		System.out.println("widthField: (" + widthField + ")");

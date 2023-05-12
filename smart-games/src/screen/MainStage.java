@@ -25,6 +25,7 @@ public class MainStage extends Application {
 	protected MenuItem mExit, mSize, mNew, mOpen, mCube;
 	protected MenuItem mRestart, mSolver, mSave, mStop;
 	protected MenuItem mRestartCube, mJobb, mJobb2, mFelul, mFelul2, mElol, mElol2, mBal, mAlul, mHatul, mJobbReteg, mBalReteg;
+	protected MenuItem mNext, mPrev;
 	private VBox root;
 	private Colorflip colorflip;
 	private Cubeable cube;
@@ -36,7 +37,7 @@ public class MainStage extends Application {
 
 	private boolean isPlaying = false;
 	private boolean isSolverMode = false;
-
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
@@ -100,8 +101,12 @@ public class MainStage extends Application {
 		mJobbReteg.setOnAction(this::jobbreteg);
 		mBalReteg = new Menu("Bal réteget forgat");
 		mBalReteg.setOnAction(this::balreteg);
+		mNext = new Menu("Következő állapot");
+		mNext.setOnAction(this::nextStage);
+		mPrev = new Menu("Előző állapot");
+		mPrev.setOnAction(this::prevStage);
 
-		mGame.getItems().addAll(mRestartCube, mSolver, mSave, mStop, mJobb, mJobb2, mFelul, mFelul2, mElol, mElol2, mBal, mAlul, mHatul, mJobbReteg, mBalReteg);
+		mGame.getItems().addAll(mRestartCube, mSolver, mSave, mStop, mNext, mPrev, mJobb, mJobb2, mFelul, mFelul2, mElol, mElol2, mBal, mAlul, mHatul, mJobbReteg, mBalReteg);
 
 
 		root.getChildren().add(menuBar);
@@ -159,7 +164,7 @@ public class MainStage extends Application {
 
 	private void startCube(ActionEvent ev) {
 		cube = new Kocka4x4x4(2);
-		cube.init();
+		cube.initGame();
 		startCube();
 	}
 
@@ -224,6 +229,14 @@ public class MainStage extends Application {
 	}
 	private void hatul(ActionEvent ev) {
 		cubePane.forgat("hatul");
+		cubePane.repaint();
+	}
+	private void nextStage(ActionEvent ev) {
+		cubePane.nextStage();
+		cubePane.repaint();
+	}
+	private void prevStage(ActionEvent ev) {
+		cubePane.prevStage();
 		cubePane.repaint();
 	}
 

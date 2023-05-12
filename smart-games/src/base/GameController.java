@@ -187,8 +187,8 @@ public class GameController
 	    System.out.println("Lépések száma: " + cnt);
     	System.out.println(s);
     	System.out.println();
-    	System.out.println();
-    	System.out.println(g);
+//    	System.out.println();
+//    	System.out.println(g);
     }
     public static void main(String[] args)
     {

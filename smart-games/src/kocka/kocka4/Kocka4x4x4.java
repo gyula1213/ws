@@ -534,6 +534,11 @@ public class Kocka4x4x4 extends Kocka
         }
         return true;	//Minden OK
     }
+	@Override
+	public void initGame() {
+		createSteps();
+		OneStep.initSolve(teszt_pill);
+	}
 	
 	@Override
     public String toString( int [] tabla )
@@ -578,15 +583,13 @@ public class Kocka4x4x4 extends Kocka
     {
         System.out.println("Indul...");
         //solveOld();
-        solve();
+        //solve();
+        solveTeszt();
         System.out.println("Vége");
         System.exit(0);
     }
-    public static void solve()
+    public static void createSteps()
     {
-        int [] act = teszt_pill;
-        //act = oneStep( act, ready, "Lo", "Lo-lo", "Ro", "Bo", "Bo-bo", "Fo" );
-        
         OneStep4x4x4 step;
         
         OneStep.init();
@@ -598,12 +601,35 @@ public class Kocka4x4x4 extends Kocka
         step = new OneStep4x4x4( "red_centrum", red_centrum, "B", "t", "d");
         step = new OneStep4x4x4( "red_blue_centrum", red_blue_centrum, "B", "t", "d");
         step = new OneStep4x4x4( "all_centrum", all_centrum, "B", "t", "d");
-        step = new OneStep4x4x4( "black_orange_edge", black_orange_edge, "Bo", "Ti", "fi", "Ro", "Ri", "fo", "to-Bi-bi");
+        //step = new OneStep4x4x4( "black_orange_edge_1", black_orange_edge_1, "B", "R", "D");
+        //step = new OneStep4x4x4( "black_orange_edge", black_orange_edge, "do", "di", "Ru", "Do", "B");	// Ez jó, ebben az esetben (teszt_pill)
+        step = new OneStep4x4x4( "black_orange_edge", black_orange_edge, "do", "di", "to", "ti", "R", "B", "D");
+    }
+    public static void solveTeszt()
+    {
+        createSteps();
+        System.out.println("--- print ----------------------------------------");
+        OneStep.print();
+        OneStep.initSolve(teszt_pill);
 
+        OneStep.solve(1);
+        System.out.println("--- solve1 ----------------------------------------");
+        OneStep.print();
+
+        OneStep.solve(4);
+        System.out.println("--- solve4 ----------------------------------------");
+        OneStep.print();
+    }
+    public static void solve()
+    {
+        int [] act = teszt_pill;
+        //act = oneStep( act, ready, "Lo", "Lo-lo", "Ro", "Bo", "Bo-bo", "Fo" );
+        
+        createSteps();
         System.out.println("--- print ----------------------------------------");
         OneStep.print();
         System.out.println("--- solve ----------------------------------------");
-        OneStep.solve(teszt_pill);
+        OneStep.allSolve(teszt_pill);
         System.out.println("--- print2 ----------------------------------------");
         OneStep.print();
         System.out.println("--- steps ----------------------------------------");
@@ -759,6 +785,14 @@ public class Kocka4x4x4 extends Kocka
 			0, 0, 0, 0,  0, 4, 4, 0,  0, 4, 4, 0,  0, 0, 0, 0, // hátsó narancs
 			0, 5, 5, 0,  0, 5, 5, 0,  0, 5, 5, 0,  0, 0, 0, 0, // bal: zöld
 			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] black_orange_edge_1 = {
+			0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0,  0, 2, 2, 0,  0, 2, 2, 0,  0, 0, 0, 0, // első: piros
+			0, 3, 3, 0,  0, 3, 3, 4,  0, 3, 3, 0,  0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0,  1, 4, 4, 0,  0, 4, 4, 0,  0, 4, 0, 0, // hátsó narancs
+			0, 5, 5, 0,  0, 5, 5, 0,  0, 5, 5, 0,  0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 1, 0, // alsó: sárga
 	};
     private static int [] black_orange_edge = {
 			0, 1, 1, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete

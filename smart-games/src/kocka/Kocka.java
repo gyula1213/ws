@@ -270,8 +270,11 @@ public class Kocka implements Gameable, Cubeable
     public  void addAllSimpleForgatas() {
     }
     private int sec = 0;
-	@Override
 	public void init() {
+		initForgatasok();
+	}
+	@Override
+	public void initGame() {
 		initForgatasok();
 	}
 	@Override
@@ -331,4 +334,8 @@ public class Kocka implements Gameable, Cubeable
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+    public void setActTable(int n) {
+    	actual = MemoryTest.zip(OneStep.getStage(n));
+    }
 }

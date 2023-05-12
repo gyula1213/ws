@@ -1,6 +1,5 @@
 package screen;
 
-// Egy játéknak ezt az interfacet kell megvalósítania
 /**
  * Ahhoz, hogy egy játékot (kockát?) ki tudjunk tenni a kéepernyőre, ezekre a függvényekre van szűkség
  * @author slenk
@@ -8,7 +7,7 @@ package screen;
  */
 public interface Cubeable
 {
-	public void init();
+	public void initGame();
 	public void init(String ... commands );
 	public void restart();
 	public int getCnt();
@@ -21,4 +20,13 @@ public interface Cubeable
     public String [] getColors();
     public void forgat( String name );
     public int [] getOriginal();
+    public void setActTable(int n);
+    
+    	// Egy tábla (kirakási cél) jellemző adatai
+    public String getName(int n);
+    public int [] getTarget(int n);
+    public String [] getCommands(int n);
+    public int [] getOrig(int n);
+    public int [] getEnd(int n);
+    public String [] getResult(int n);
 }
