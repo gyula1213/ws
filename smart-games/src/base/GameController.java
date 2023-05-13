@@ -43,6 +43,7 @@ public class GameController
 		collStages.put(game,null);
 		if ( game.isReady() )
 	    {
+			result = new ArrayList<>();
 			System.out.println( "Kész! " );
 			return 0;
 	    }

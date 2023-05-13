@@ -6,6 +6,7 @@ import java.util.Vector;
 import base.Gameable;
 import hello.MemoryTest;
 import kocka.forgat.Forgat;
+import kocka.kocka4.Kocka4x4x4;
 import screen.Cubeable;
 
 /**
@@ -271,10 +272,12 @@ public class Kocka implements Gameable, Cubeable
     	OneStep oneStep = newOneStep( name, target, commands);
     	return oneStep;
     }
-    
+    public static int [] getReady() {
+    	return null;
+    }
     public  void initForgatasok() {
     }
-    public  void addAllSimpleForgatas() {
+    public void addAllSimpleForgatas() {
     }
     private int sec = 0;
 	public void init() {
@@ -344,6 +347,12 @@ public class Kocka implements Gameable, Cubeable
     public void setActTable(int n) {
     	actual = MemoryTest.zip(steps.getStage(n));
     }
+	@Override
+	public void setRandomTable() {
+        //steps = new Steps();	// TODO inkább valami init fv-t kéne hívni
+		int [] act = createRandom();
+		steps.initSolve(act);
+	}
 	
 	
 	@Override
@@ -370,4 +379,9 @@ public class Kocka implements Gameable, Cubeable
 	public String[] getResult(int n) {
 		return steps.getResult(n);
 	}
+    public int [] createRandom()
+    {
+        return null;
+    }
+	
 }

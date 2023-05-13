@@ -197,9 +197,9 @@ public class Kocka4x4x4 extends Kocka
 		int [] d = jobbra_dont;	// döntés
 
 		// Tető
-		Forgat.addForgatas("Ti", origin, d, jobb, d, d, d);
-		Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
-		Forgat.addForgatas("To", origin, d, jobb, jobb, jobb, d, d, d);
+		//Forgat.addForgatas("Ti", origin, d, jobb, d, d, d);
+		//Forgat.addForgatas("Tu", origin, d, jobb, jobb, d, d, d);
+		//Forgat.addForgatas("To", origin, d, jobb, jobb, jobb, d, d, d);
 		Forgat.addForgatas("ti", origin, d, jobb_reteg, d, d, d);
 		Forgat.addForgatas("tu", origin, d, jobb_reteg, jobb_reteg, d, d, d);
 		Forgat.addForgatas("to", origin, d, jobb_reteg, jobb_reteg, jobb_reteg, d, d, d);
@@ -208,17 +208,17 @@ public class Kocka4x4x4 extends Kocka
 		Forgat.addForgatas("Fi", origin, f, f, f, jobb, f);
 		Forgat.addForgatas("Fu", origin, f, f, f, jobb, jobb, f);
 		Forgat.addForgatas("Fo", origin, f, f, f, jobb, jobb, jobb, f);
-		Forgat.addForgatas("fi", origin, f, f, f, jobb_reteg, f);
-		Forgat.addForgatas("fu", origin, f, f, f, jobb_reteg, jobb_reteg, f);
-		Forgat.addForgatas("fo", origin, f, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f);
+		//Forgat.addForgatas("fi", origin, f, f, f, jobb_reteg, f);
+		//Forgat.addForgatas("fu", origin, f, f, f, jobb_reteg, jobb_reteg, f);
+		//Forgat.addForgatas("fo", origin, f, f, f, jobb_reteg, jobb_reteg, jobb_reteg, f);
 	
 			// Jobb oldal
 		Forgat.addForgatas("Ri", origin, jobb);
 		Forgat.addForgatas("Ru", origin, jobb, jobb);
 		Forgat.addForgatas("Ro", origin, jobb, jobb, jobb );
-		Forgat.addForgatas("ri", origin, jobb_reteg);
-		Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
-		Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
+		//Forgat.addForgatas("ri", origin, jobb_reteg);
+		//Forgat.addForgatas("ru", origin, jobb_reteg, jobb_reteg);
+		//Forgat.addForgatas("ro", origin, jobb_reteg, jobb_reteg, jobb_reteg);
 
 			// Hátul
 		Forgat.addForgatas("Bi", origin, f, jobb, f, f, f);
@@ -540,6 +540,9 @@ public class Kocka4x4x4 extends Kocka
 		createSteps();
 		steps.initSolve(teszt_pill);
 	}
+	public static int [] getReady() {
+    	return ready;
+    }
 	
 	@Override
     public String toString( int [] tabla )
@@ -562,6 +565,27 @@ public class Kocka4x4x4 extends Kocka
         }
         return s;
     }
+	@Override
+    public int [] createRandom()
+    {
+		Forgat.init();
+		addAllSimpleForgatas();
+
+        int [] ret = getReady();
+        ret = Forgat.forgatasok( ret, "Ri" );
+        
+        Forgat forg;
+        for ( int i=0; i<100; i++ ) {
+            ret = Forgat.random(ret);
+        }
+
+        //steps = new Steps();
+        //addOneStep( "ready", ready, "T", "F", "R", "B", "L", "D", "t", "f", "r", "b", "l", "d" );
+        createSteps();
+        
+        return ret;
+    }
+	
     public static OneStep newOneStep( String name, int [] target, String... commands )
     {
     	OneStep4x4x4 oneStep = new OneStep4x4x4( name, target, commands);
@@ -589,8 +613,8 @@ public class Kocka4x4x4 extends Kocka
     {
         System.out.println("Indul...");
         //solveOld();
-        //solve();
-        solveTeszt();
+        //solveTeszt();
+        solve();
         System.out.println("Vége");
         System.exit(0);
     }
@@ -635,6 +659,7 @@ public class Kocka4x4x4 extends Kocka
         //act = oneStep( act, ready, "Lo", "Lo-lo", "Ro", "Bo", "Bo-bo", "Fo" );
         
         createSteps();
+        
         System.out.println("--- print ----------------------------------------");
         steps.print();
         System.out.println("--- solve ----------------------------------------");

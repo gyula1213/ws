@@ -51,7 +51,7 @@ public class Steps
 	 */
 	public boolean solve( int n )
 	{
-		if ( n <= maxLevel )	// már meg van fejtve
+		if ( n>0 && n <= maxLevel )	// már meg van fejtve
 			return true;
 		
 		int [] act = startOrig;

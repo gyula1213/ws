@@ -144,6 +144,9 @@ public class CubePane extends BorderPane {
 		case "S": 
 			gc.setFill(Color.YELLOW);
 			break;
+		case "R": 
+			gc.setFill(Color.CYAN);
+			break;
 		}
 	}
 
@@ -178,6 +181,9 @@ public class CubePane extends BorderPane {
 	}
 	public void prevStage() {
 		tableIndex--;
+	}
+	public void keveres() {
+		cube.setRandomTable();
 	}
 
 	private void mousePressed(MouseEvent ev) {

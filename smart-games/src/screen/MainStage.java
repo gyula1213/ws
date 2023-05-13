@@ -22,9 +22,12 @@ public class MainStage extends Application {
 
 	protected MenuBar menuBar;
 	protected Menu mMain, mGame;
+	protected Menu mForgat;
 	protected MenuItem mExit, mSize, mNew, mOpen, mCube;
 	protected MenuItem mRestart, mSolver, mSave, mStop;
-	protected MenuItem mRestartCube, mJobb, mJobb2, mFelul, mFelul2, mElol, mElol2, mBal, mAlul, mHatul, mJobbReteg, mBalReteg;
+	protected MenuItem mKever;
+	protected MenuItem mRestartCube;
+	protected MenuItem mJobb, mJobb2, mFelul, mFelul2, mElol, mElol2, mBal, mAlul, mHatul, mJobbReteg, mBalReteg;
 	protected MenuItem mNext, mPrev;
 	private VBox root;
 	private Colorflip colorflip;
@@ -79,35 +82,38 @@ public class MainStage extends Application {
 
 		mRestartCube = new Menu("Újra");
 		mRestartCube.setOnAction(this::restartCube);
-		mJobb = new Menu("Jobb szélsőt forgat");
+		mJobb = new MenuItem("Jobb szélsőt forgat");
 		mJobb.setOnAction(this::jobb);
-		mJobb2 = new Menu("Jobb szélső kettőt forgat");
+		mJobb2 = new MenuItem("Jobb szélső kettőt forgat");
 		mJobb2.setOnAction(this::jobb2);
-		mFelul = new Menu("Felsőt forgat");
+		mFelul = new MenuItem("Felsőt forgat");
 		mFelul.setOnAction(this::felul);
-		mFelul2 = new Menu("Felső kettőt forgat");
+		mFelul2 = new MenuItem("Felső kettőt forgat");
 		mFelul2.setOnAction(this::felul2);
-		mElol = new Menu("Elöl forgat");
+		mElol = new MenuItem("Elöl forgat");
 		mElol.setOnAction(this::elol);
-		mElol2 = new Menu("Első kettőt forgat");
+		mElol2 = new MenuItem("Első kettőt forgat");
 		mElol2.setOnAction(this::elol2);
-		mBal = new Menu("bal oldalon forgat");
+		mBal = new MenuItem("bal oldalon forgat");
 		mBal.setOnAction(this::bal);
-		mAlul = new Menu("Alul forgat");
+		mAlul = new MenuItem("Alul forgat");
 		mAlul.setOnAction(this::alul);
-		mHatul = new Menu("Hátul forgat");
+		mHatul = new MenuItem("Hátul forgat");
 		mHatul.setOnAction(this::hatul);
-		mJobbReteg = new Menu("Jobb réteget forgat");
+		mJobbReteg = new MenuItem("Jobb réteget forgat");
 		mJobbReteg.setOnAction(this::jobbreteg);
-		mBalReteg = new Menu("Bal réteget forgat");
+		mBalReteg = new MenuItem("Bal réteget forgat");
 		mBalReteg.setOnAction(this::balreteg);
 		mNext = new Menu("Következő állapot");
 		mNext.setOnAction(this::nextStage);
 		mPrev = new Menu("Előző állapot");
 		mPrev.setOnAction(this::prevStage);
+		mKever = new Menu("Véletlenszerű összekeverés");
+		mKever.setOnAction(this::keveres);
+		mForgat = new Menu("Forgatások");
 
-		mGame.getItems().addAll(mRestartCube, mSolver, mSave, mStop, mNext, mPrev, mJobb, mJobb2, mFelul, mFelul2, mElol, mElol2, mBal, mAlul, mHatul, mJobbReteg, mBalReteg);
-
+		mGame.getItems().addAll(mRestartCube, mSolver, mSave, mStop, mNext, mPrev, mKever);
+		mForgat.getItems().addAll(mJobb, mJobb2, mFelul, mFelul2, mElol, mElol2, mBal, mAlul, mHatul, mJobbReteg, mBalReteg);
 
 		root.getChildren().add(menuBar);
 		root.getChildren().add(new Pane()); // Placeholder panel
@@ -153,7 +159,7 @@ public class MainStage extends Application {
 	}
 
 	private void gameMenu() {
-		menuBar.getMenus().addAll(mGame);
+		menuBar.getMenus().addAll(mGame, mForgat);
 	}
 
 	private void startNewGame(ActionEvent ev) {
@@ -237,6 +243,10 @@ public class MainStage extends Application {
 	}
 	private void prevStage(ActionEvent ev) {
 		cubePane.prevStage();
+		cubePane.repaint();
+	}
+	private void keveres(ActionEvent ev) {
+		cubePane.keveres();
 		cubePane.repaint();
 	}
 

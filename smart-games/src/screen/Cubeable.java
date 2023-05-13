@@ -21,6 +21,7 @@ public interface Cubeable
     public void forgat( String name );
     public int [] getOriginal();
     public void setActTable(int n);
+    public void setRandomTable();
     
     	// Egy tábla (kirakási cél) jellemző adatai
     public String getName(int n);

@@ -191,6 +191,23 @@ public class Forgat {
 		}
 	}
 	/**
+	 * Véletlenszerűen visszaad egy forgatást a felvett forgatások közül.
+	 * @return
+	 */
+	public static Forgat getRandom()  {
+		int n = forgatasok.size();
+		int i = (int)(n*Math.random());
+		return forgatasok.get(i);
+	}
+	/**
+	 * Véletlenszerűen használ egyet a megadott forgatások közül
+	 * @return
+	 */
+	public static int [] random( int [] orig)  {
+		Forgat forg = getRandom();
+		return forgat( orig, forg.getMatrix());
+	}
+	/**
 	 * Név alapján visszaad egy forgatást
 	 * @param name
 	 * @return
