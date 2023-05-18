@@ -3,6 +3,8 @@ package kocka;
 import java.util.ArrayList;
 import java.util.List;
 
+import kocka.forgat.Forgat;
+
 /**
  * Kocka kirakása több lépésben
  * Ez az osztály fogja össze a lépéseket
@@ -40,6 +42,9 @@ public class Steps
 		{
 			System.out.println((++cnt) + ":: " + step.getName() + ": " + step.getSteps());
 		}
+	}
+	public int size() {
+		return steps.size();
 	}
 	/**
 	 * Az n-edik szintig végrehajtja a lépéseket (megfejti a kockát)

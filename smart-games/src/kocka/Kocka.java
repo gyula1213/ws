@@ -1,12 +1,12 @@
 package kocka;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import base.Gameable;
 import hello.MemoryTest;
 import kocka.forgat.Forgat;
-import kocka.kocka4.Kocka4x4x4;
 import screen.Cubeable;
 
 /**
@@ -15,7 +15,7 @@ import screen.Cubeable;
  * @author slenk
  *
  */
-public class Kocka implements Gameable, Cubeable
+public class Kocka implements Gameable
 {
     private static String [] colors = {"x", "abcde", "Z", "P", "S", "N", "K"};
 
@@ -25,15 +25,17 @@ public class Kocka implements Gameable, Cubeable
     protected int id;
 	
     protected byte [] actual;
-    private static int [] saveStarted;
     protected static int [] target;
     protected static Steps steps;
     
+    public Kocka()	// Screen-ről hívott konstruktor
+    {
+    	
+    }
     protected Kocka( int [] stage, int prevStep )
     {
     	this.prevStep = prevStep;
         this.actual = MemoryTest.zip(stage);
-        saveStarted = stage;
         id = idSzamlalo++;
     }
     public Kocka( int [] stage )
@@ -240,6 +242,10 @@ public class Kocka implements Gameable, Cubeable
     	//String [] colors = { "F", "Z", "P", "K", "N", "S" }; 
     	return colors;
     }
+    public int getSize()
+    {
+    	return 4;
+    }
     /**
      * Formázott kiíratáshoz segítség
      * @return
@@ -283,12 +289,7 @@ public class Kocka implements Gameable, Cubeable
 	public void init() {
 		initForgatasok();
 	}
-	@Override
-	public void initGame() {
-		initForgatasok();
-	}
-	@Override
-	public void init(String... commands) {
+	public String [] init(String... commands) {
 		addAllSimpleForgatas();
 		for ( String s : commands ) {
 			String [] x = s.split("-");
@@ -298,90 +299,38 @@ public class Kocka implements Gameable, Cubeable
 		}
 		Forgat.setAllActive(false);
 		Forgat.setActive(true, commands);
+		return Forgat.getForgatasok();
 	}
-	@Override
-	public int getCnt() {
-		// TODO Auto-generated method stub
-		return 99;
-	}
-	@Override
-	public int getSize() {
-		// TODO Auto-generated method stub
-		return 4;
-	}
-	@Override
-	public int getSec() {
-		return sec;
-	}
-	@Override
-	public void setSec(int sec) {
-		this.sec = sec;
-	}
-	@Override
-	public boolean checkActTable() {
-		return isReady();
-	}
-	@Override
-	public int[] getActTable() {
-		return getActual();
-	}
-	@Override
 	public void forgat( String name ) {
 		int [] matrix = Forgat.getMatrix(name);
         actual = MemoryTest.zip(Forgat.forgat( getActual(), matrix ));
 	}
-	@Override
-	public void restart() {
-		actual = MemoryTest.zip(saveStarted);
-	}
-	@Override
 	public int[] getOriginal() {
 		return null;
 	}
-	@Override
 	public void setTarget(int[] t) {
 		target = t;
-		// TODO Auto-generated method stub
 	}
-	@Override
-    public void setActTable(int n) {
-    	actual = MemoryTest.zip(steps.getStage(n));
+    public void setActTable(int [] act) {
+    	actual = MemoryTest.zip(act);
     }
-	@Override
-	public void setRandomTable() {
-        //steps = new Steps();	// TODO inkább valami init fv-t kéne hívni
-		int [] act = createRandom();
-		steps.initSolve(act);
-	}
-	
-	
-	@Override
-	public String getName(int n) {
-		return steps.getName(n);
-	}
-	@Override
-	public int[] getTarget(int n) {
-		return steps.getTarget(n);
-	}
-	@Override
-	public String[] getCommands(int n) {
-		return steps.getCommands(n);
-	}
-	@Override
-	public int[] getOrig(int n) {
-		return steps.getOrig(n);
-	}
-	@Override
-	public int[] getEnd(int n) {
-		return steps.getEnd(n);
-	}
-	@Override
-	public String[] getResult(int n) {
-		return steps.getResult(n);
-	}
     public int [] createRandom()
     {
         return null;
     }
+    public int [] getTeszt()
+    {
+        return null;
+    }
+	public void restart(int [] saveStarted) {
+		actual = MemoryTest.zip(saveStarted);
+	}
+    
+    /**
+     * Itt állítjuk be a próbálkozáshoz használt lépéseket
+     */
+	public void createTryingSteps(Steps steps) {
+		//createSteps();
+	}
 	
 }

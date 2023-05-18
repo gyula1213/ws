@@ -39,12 +39,12 @@
 		<item key="WHOLE_WORD" value="false"/>
 		<item key="SEARCH_DERIVED" value="false"/>
 		<item key="SEARCH_IN_BINARIES" value="false"/>
-		<item key="HISTORY_SIZE" value="2"/>
+		<item key="HISTORY_SIZE" value="3"/>
 		<section name="HISTORY0">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>
-			<item key="textPattern" value="getNorma"/>
+			<item key="textPattern" value="newKo"/>
 			<item key="scope" value="0"/>
 			<list key="fileNamePatterns">
 				<item value="*.java"/>
@@ -56,6 +56,18 @@
 			<item key="0" value="*.java"/>
 		</section>
 		<section name="HISTORY1">
+			<item key="ignoreCase" value="true"/>
+			<item key="isRegExSearch" value="false"/>
+			<item key="isWholeWord" value="false"/>
+			<item key="textPattern" value="getNorma"/>
+			<item key="scope" value="0"/>
+			<list key="fileNamePatterns">
+				<item value="*.java"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY2">
 			<item key="ignoreCase" value="true"/>
 			<item key="isRegExSearch" value="false"/>
 			<item key="isWholeWord" value="false"/>

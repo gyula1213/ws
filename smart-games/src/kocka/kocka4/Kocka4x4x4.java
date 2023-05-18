@@ -1,9 +1,5 @@
 package kocka.kocka4;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
 import base.GameController;
 import base.Gameable;
 import kocka.Kocka;
@@ -30,6 +26,10 @@ public class Kocka4x4x4 extends Kocka
     private static boolean ruBuTuli = false;
     private static boolean centrum = true;
 	
+    public Kocka4x4x4()	// Screen-ről hívott konstruktor
+    {
+    	super();
+    }
     protected Kocka4x4x4( int [] stage, int prevStep )
     {
     	super( stage, prevStep );
@@ -535,11 +535,6 @@ public class Kocka4x4x4 extends Kocka
         }
         return true;	//Minden OK
     }
-	@Override
-	public void initGame() {
-		createSteps();
-		steps.initSolve(teszt_pill);
-	}
 	public static int [] getReady() {
     	return ready;
     }
@@ -581,10 +576,18 @@ public class Kocka4x4x4 extends Kocka
 
         //steps = new Steps();
         //addOneStep( "ready", ready, "T", "F", "R", "B", "L", "D", "t", "f", "r", "b", "l", "d" );
-        createSteps();
+        createSteps(new Steps());
         
         return ret;
     }
+	@Override
+	public int [] getTeszt() {
+		return teszt_pill.clone();
+	}
+	@Override
+	public void createTryingSteps( Steps s) {
+		createSteps(s);
+	}
 	
     public static OneStep newOneStep( String name, int [] target, String... commands )
     {
@@ -618,18 +621,21 @@ public class Kocka4x4x4 extends Kocka
         System.out.println("Vége");
         System.exit(0);
     }
-    public static void createSteps()
+    public static void createSteps( Steps s )
     {
-        steps = new Steps();
+        steps = s;
         addOneStep( "top_centrums", top_centrums, "R", "t", "d", "l", "b" );
+        addOneStep( "top_bottom1_centrums", top_bottom1_centrums, "D", "R", "t", "d", "l", "b" );
+        addOneStep( "top_bottom2_centrums", top_bottom2_centrums, "D", "R", "t", "d", "l", "b" );
         addOneStep( "top_bottom_centrums", top_bottom_centrums, "D", "R", "t", "d", "l", "b" );
         addOneStep( "black_red_edge", black_red_edge, "F", "R", "B", "L", "t", "d");
         addOneStep( "black_blue_edge", black_blue_edge, "F", "R", "B", "L", "t", "d");
         addOneStep( "black_green_edge", black_green_edge, "F", "R", "B", "L", "t", "d");
         addOneStep( "red_centrum", red_centrum, "B", "t", "d");
+        addOneStep( "red_blue1_centrum", red_blue1_centrum, "B", "t", "d");
         addOneStep( "red_blue_centrum", red_blue_centrum, "B", "t", "d");
         addOneStep( "all_centrum", all_centrum, "B", "t", "d");
-        //addOneStep( "black_orange_edge_1", black_orange_edge_1, "B", "R", "D");
+        addOneStep( "black_orange_edge1", black_orange_edge1, "B", "R", "D");
         //addOneStep( "black_orange_edge", black_orange_edge, "do", "di", "Ru", "Do", "B");	// Ez jó, ebben az esetben (teszt_pill)
         addOneStep( "black_orange_edge", black_orange_edge, "do", "di", "to", "ti", "R", "B", "D");
     }
@@ -640,7 +646,7 @@ public class Kocka4x4x4 extends Kocka
     }
     public static void solveTeszt()
     {
-        createSteps();
+        createSteps(new Steps());
         System.out.println("--- print ----------------------------------------");
         steps.print();
         steps.initSolve(teszt_pill);
@@ -658,7 +664,7 @@ public class Kocka4x4x4 extends Kocka
         int [] act = teszt_pill;
         //act = oneStep( act, ready, "Lo", "Lo-lo", "Ro", "Bo", "Bo-bo", "Fo" );
         
-        createSteps();
+        createSteps(new Steps());
         
         System.out.println("--- print ----------------------------------------");
         steps.print();
@@ -764,6 +770,22 @@ public class Kocka4x4x4 extends Kocka
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // bal: zöld
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // alsó: sárga
 	};
+    private static int [] top_bottom1_centrums = {
+			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // első: piros
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // hátsó narancs
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, // alsó: sárga
+	};
+    private static int [] top_bottom2_centrums = {
+			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
+			0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0, 0, 0, // első: piros
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // hátsó narancs
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, // alsó: sárga
+	};
     private static int [] top_bottom_centrums = {
 			0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, // felső: fekete
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // első: piros
@@ -804,6 +826,14 @@ public class Kocka4x4x4 extends Kocka
 			0, 5, 5, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // bal: zöld
 			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
 	};
+    private static int [] red_blue1_centrum = {
+			0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
+			0, 2, 2, 0,  0, 2, 2, 0,  0, 2, 2, 0,  0, 0, 0, 0, // első: piros
+			0, 3, 3, 0,  0, 3, 3, 0,  0, 0, 0, 0,  0, 0, 0, 0, // jobb kék
+			0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // hátsó narancs
+			0, 5, 5, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0, // bal: zöld
+			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
+	};
     private static int [] red_blue_centrum = {
 			0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
 			0, 2, 2, 0,  0, 2, 2, 0,  0, 2, 2, 0,  0, 0, 0, 0, // első: piros
@@ -820,7 +850,7 @@ public class Kocka4x4x4 extends Kocka
 			0, 5, 5, 0,  0, 5, 5, 0,  0, 5, 5, 0,  0, 0, 0, 0, // bal: zöld
 			0, 0, 0, 0,  0, 6, 6, 0,  0, 6, 6, 0,  0, 0, 0, 0, // alsó: sárga
 	};
-    private static int [] black_orange_edge_1 = {
+    private static int [] black_orange_edge1 = {
 			0, 0, 0, 0,  1, 1, 1, 1,  1, 1, 1, 1,  0, 1, 1, 0, // felső: fekete
 			0, 2, 2, 0,  0, 2, 2, 0,  0, 2, 2, 0,  0, 0, 0, 0, // első: piros
 			0, 3, 3, 0,  0, 3, 3, 4,  0, 3, 3, 0,  0, 0, 0, 0, // jobb kék

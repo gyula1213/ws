@@ -27,6 +27,20 @@ public class Forgat {
 		this.name = name;
 		this.matrix = forgatasok( orig, commands);
 	}
+	public static String [] getForgatasok() {
+		int cnt = 0;
+		for ( Forgat f:forgatasok ) {
+			if ( f.isActive )
+				cnt++;
+		}
+		String [] ret = new String [cnt];
+		int i = 0;
+		for ( Forgat f:forgatasok ) {
+			if ( f.isActive )
+				ret[i++] = f.getName();
+		}
+		return ret;
+	}
 	/**
 	 * Leellenőrzi, hogy a forgatási mátrix megfelelő-e
 	 * @param matrix

@@ -7,13 +7,13 @@ package screen;
  */
 public interface Cubeable
 {
-	public void initGame();
+//	public void initGame();
 	public void init(String ... commands );
-	public void restart();
-	public int getCnt();
+//	public void restart();
+//	public int getCnt();
 	public int getSize();
-	public int getSec();
-	public void setSec(int sec);
+//	public int getSec();
+//	public void setSec(int sec);
 	public boolean checkActTable();
 	public void setTarget( int [] target);
 	public int [] getActTable();

@@ -1,11 +1,6 @@
 package kocka;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
 import base.GameController;
-import base.Gameable;
 import kocka.forgat.Forgat;
 
 /**
@@ -22,6 +17,7 @@ public class OneStep
 	private int [] end;				// A lépés végrehajtása után ez jött létre
 	private String [] commands;		// A végrehajtás során ezeket a parancsokat (forgatásokat) használhatjuk
 	private Kocka kocka;			// A kocka, amin dolgozni fogunk
+	
 	String [] result;				// A megoldás lépései
 	
 	public OneStep(String name, int[] target, String... commands) {
@@ -33,7 +29,7 @@ public class OneStep
 	public void createCube(int[] orig) {
 		this.orig = orig;
         kocka = newKocka(orig);
-        kocka.init( commands );
+        commands = kocka.init( commands ); // init beállítja a forgatásokat és egy tömbben visszaadja, amit valóban beállított
         kocka.setTarget(target);
 //        System.out.println("One step...");
 //        System.out.println("X0" + kocka);

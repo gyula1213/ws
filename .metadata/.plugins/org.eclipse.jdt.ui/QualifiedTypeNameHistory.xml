@@ -24,9 +24,11 @@
 <fullyQualifiedTypeName name="sakk.Sakk"/>
 <fullyQualifiedTypeName name="screen.Cubeable"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="kocka.kocka4.Kocka4x4x4"/>
 <fullyQualifiedTypeName name="kocka.Kocka2x2x2"/>
-<fullyQualifiedTypeName name="kocka.Kocka"/>
 <fullyQualifiedTypeName name="base.Gameable"/>
 <fullyQualifiedTypeName name="base.GameController"/>
+<fullyQualifiedTypeName name="kocka.Steps"/>
+<fullyQualifiedTypeName name="javafx.scene.control.MenuButton"/>
+<fullyQualifiedTypeName name="kocka.kocka4.Kocka4x4x4"/>
+<fullyQualifiedTypeName name="kocka.Kocka"/>
 </qualifiedTypeNameHistroy>

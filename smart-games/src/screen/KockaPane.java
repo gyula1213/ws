@@ -12,8 +12,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import kocka.KockaVezer;
 
-public class CubePane extends BorderPane {
+public class KockaPane extends BorderPane {
 	private Stage screen;
 
 	private Text resultText = new Text();
@@ -22,25 +23,22 @@ public class CubePane extends BorderPane {
 	private HBox centerBox = new HBox();
 	private Canvas canvas;
 
-	private Cubeable cube;
+	private KockaVezer kocka;
 	private int size;
 	private double width;
 	private double height;
 	private double widthField;
-	private boolean isSolverMode = false;
-
+	
 	private Timer timer;
 	private int sec = 0;
 	private String clock;
 	private boolean isReady;
-
-	private int tableIndex = 0;		// A megoldás során hányadik lépésnél járunk (0) a kiinduló állapot
 	/**
 	 * A jatek tablaja
 	 */
-	public CubePane(Stage screen, Cubeable cube) {
+	public KockaPane(Stage screen, KockaVezer kocka) {
 		this.screen = screen;
-		this.cube = cube;
+		this.kocka = kocka;
 
 		// Canvas in Center
 		canvas = new Canvas();
@@ -50,14 +48,6 @@ public class CubePane extends BorderPane {
 		setCenter(centerBox);
 		
 		// Result on top
-		if (cube.getCnt() == 0) {
-			resultText.setFill(Color.BLUE);
-			resultText.setText("Good luck!");
-		}
-		else {
-			resultText.setFill(Color.BLACK);
-			resultText.setText("Number of steps: " + cube.getCnt());
-		}
 		resultText.setFont(Font.font("Courier NEW", FontWeight.BOLD, 16));
 //		resultText.setAlignment(Pos.BASELINE_CENTER);
 		
@@ -76,29 +66,31 @@ public class CubePane extends BorderPane {
 		startGame();
 	}
 
-	public void setSolverMode(boolean flag) {
-		isSolverMode = flag;
-	}
-
 	public void stopGame() {
-		timer.stop();
+		//timer.stop();
 	}
 
 	public void restartGame() {
 		resultText.setFill(Color.BROWN);
 		resultText.setText("Game restarted");
-		cube.restart();
 		startGame();
 	}
 
 	public void startGame() {
-		size = cube.getSize();
-		sec = cube.getSec();
+		size = kocka.getSize();
 		setSec(sec);
-		timer = new Timer(this, sec);
-		timer.start();
+		//timer = new Timer(this, sec);
+		//timer.start();
 		isReady = false;
 		repaint();
+	}
+	
+	public void setResult( String [] res) {
+		String ret="";
+		for ( String s:res) {
+			ret  += s + ","; 
+		}
+		resultText.setText(ret);
 	}
 
 	private double posX[] = new double[6];
@@ -119,7 +111,7 @@ public class CubePane extends BorderPane {
 		}
 	}
 	private void setColor(GraphicsContext gc, int col) {
-		String [] cols = cube.getColors();
+		String [] cols = kocka.getColors();
 	    //private static String [] colors = {"x", "F", "P", "K", "N", "Z", "S"};
 		switch( cols[col] )
 		{
@@ -168,28 +160,13 @@ public class CubePane extends BorderPane {
 		posX[5] = size * this.widthField;
 		posY[5] = 2 * size * this.widthField;
 		gc.clearRect(0, 0, width, height);
-		cube.setActTable(tableIndex);
-		paintTable(gc, cube.getActTable());
+		paintTable(gc, kocka.getActTable());
 	}
 	
-	public void forgat( String name) {
-		cube.forgat(name);
-	}
-
-	public void nextStage() {
-		tableIndex++;
-	}
-	public void prevStage() {
-		tableIndex--;
-	}
-	public void keveres() {
-		cube.setRandomTable();
-	}
-
 	private void mousePressed(MouseEvent ev) {
 		if (isReady) {
 			resultText.setFill(Color.BROWN);
-			resultText.setText("You are ready in " + cube.getCommands(tableIndex) + " steps. Time: " + clock);
+			resultText.setText("Connands: " + kocka.getCommands(1) + " steps. Time: " + clock);	// TODO
 			return;
 		}
 		System.out.println("widthField: (" + widthField + ")");
@@ -202,28 +179,27 @@ public class CubePane extends BorderPane {
 			return;
 		}
 		//cube.step(col, row);
-		if (cube.checkActTable()) {
+		if (kocka.checkActTable()) {
 			isReady = true;
 			resultText.setFill(Color.GREEN);
-			resultText.setText("You are ready in " + cube.getCnt() + " steps. Time: " + clock);
+			//resultText.setText("You are ready in " + kocka.getCnt() + " steps. Time: " + clock); TODO
 			stopGame();
 		} else {
 			resultText.setFill(Color.BLACK);
-			resultText.setText("Number of steps: " + cube.getCnt());
+			// resultText.setText("Number of steps: " + kocka.getCnt()); TODO
 		}
 		repaint();
 	}
 
-	public void setTableSize(double w, double h) {
+	public void setTableSize() {
 		width = screen.getWidth() - 160;
 		height = screen.getHeight();
-		widthField = Math.min(height / size, width / size) * 0.9;
+		widthField = Math.min(height / (3*size), width / (4*size)) * 0.9;
 		repaint();
 	}
 
 	private void setSec(int sec) {
 		this.sec = sec;
-		cube.setSec(sec);
 		int m = sec / 60;
 		int s = sec % 60;
 		if (s < 10)
@@ -236,9 +212,9 @@ public class CubePane extends BorderPane {
 	public class Timer extends Thread {
 
 		private int sec;
-		private CubePane pane;
+		private KockaPane pane;
 
-		public Timer(CubePane pane, int sec) {
+		public Timer(KockaPane pane, int sec) {
 			this.pane = pane;
 			this.sec = sec;
 		}
