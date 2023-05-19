@@ -9,7 +9,6 @@
 <fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
 <fullyQualifiedTypeName name="javax.swing.JPanel"/>
 <fullyQualifiedTypeName name="javax.swing.JLabel"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="javax.swing.JButton"/>
 <fullyQualifiedTypeName name="java.awt.Canvas"/>
@@ -29,6 +28,10 @@
 <fullyQualifiedTypeName name="base.GameController"/>
 <fullyQualifiedTypeName name="kocka.Steps"/>
 <fullyQualifiedTypeName name="javafx.scene.control.MenuButton"/>
-<fullyQualifiedTypeName name="kocka.kocka4.Kocka4x4x4"/>
 <fullyQualifiedTypeName name="kocka.Kocka"/>
+<fullyQualifiedTypeName name="kocka.kocka4.Kocka4x4x4"/>
+<fullyQualifiedTypeName name="com.sun.xml.internal.bind.v2.schemagen.xmlschema.List"/>
+<fullyQualifiedTypeName name="kocka.forgat.Forgat"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="javafx.scene.control.CustomMenuItem"/>
 </qualifiedTypeNameHistroy>

@@ -90,10 +90,13 @@ public class KockaVezer
 		kocka.forgat(s);
 	}
     /**
-     * Az n. állapotnak megfelelő tekerés végére teszi a táblát
+     * Az n. állapotnak megfelelő step adatait állítja be 
+     * A tekerés végére teszi a táblát
+     * Beállítja a megfelelő forgatásokat TODO
      */
-    public void setActTable(int n) {
+    public void setActStep(int n) {
 		int [] act = steps.getStage(n);
+		// TODO Forgat osztályban az aktuális forgatások beállítása!
 		kocka.setActTable(act);
     }
 	/**
